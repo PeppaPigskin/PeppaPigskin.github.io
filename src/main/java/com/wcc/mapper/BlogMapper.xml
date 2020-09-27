@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wcc.mapper.BlogMapper">
+
+    <resultMap id="blogResult" type="Blog">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="releaseDate" property="releaseDate"/>
+        <result column="clickHit" property="clickHit"/>
+        <result column="replyHit" property="replyHit"/>
+        <result column="content" property="content"/>
+        <result column="modifyDate" property="modifyDate"/>
+        <result column="keyWord" property="keyWord"/>
+        <association property="blogType" column="typeId" select="com.wcc.mapper.BlogTypeMapper.findById"/>
+        <association property="blogger" column="bloggerId" select="com.wcc.mapper.BloggerMapper.findById"/>
+    </resultMap>
+
+    <!--用于主页按照日期查询博客-->
+    <select id="selAllBlogs" resultMap="blogResult">
+        select date_format(releaseDate,'%Y年%m月') as releaseDateStr,count(*) as blogCount
+        from t_blog
+        group by date_format(releaseDate,'%Y年%m月')
+        order by date_format(releaseDate,'%Y年%m月') desc;
+    </select>
+
+    <!--动态条件查询博客数据-->
+    <select id="findBlogList" parameterType="map" resultMap="blogResult">
+        select * from t_blog
+        <where>
+            <if test="title!=null and title!=''">
+                and title like #{title}
+            </if>
+            <if test="typeId!=null and typeId!=''">
+                and typeId = #{typeId}
+            </if>
+            <if test="bloggerId!=null and bloggerId!=''">
+                and bloggerId = #{bloggerId}
+            </if>
+            <if test="releaseDateStr!=null and releaseDateStr!=''">
+                and date_format(releaseDate,'%Y年%m月') = releaseDateStr
+            </if>
+            <if test="modifyDateStr!=null and modifyDateStr!=''">
+                and date_format(modifyDate,'%Y年%m月') = modifyDate
+            </if>
+        </where>
+        order by releaseDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <!--动态条件查询博客数据数量-->
+    <select id="getBlogCount" parameterType="map" resultType="Long">
+        select count(*) from t_blog
+        <where>
+            <if test="title!=null and title!=''">
+                and title like #{title}
+            </if>
+            <if test="typeId!=null and typeId!=''">
+                and typeId = #{typeId}
+            </if>
+            <if test="bloggerId!=null and bloggerId!=''">
+                and bloggerId = #{bloggerId}
+            </if>
+            <if test="releaseDateStr!=null and releaseDateStr!=''">
+                and date_format(releaseDate,'%Y年%m月') = releaseDateStr
+            </if>
+            <if test="modifyDateStr!=null and modifyDateStr!=''">
+                and date_format(modifyDate,'%Y年%m月') = modifyDate
+            </if>
+        </where>
+    </select>
+
+    <!--根据主键查询博客数据-->
+    <select id="selBlogById" parameterType="Integer" resultMap="blogResult">
+        select  * from t_blog where id=#{id}
+    </select>
+
+    <!--新增博客数据：useGeneratedKeys-表示使用数据库的自动规则；keyProperty：表示说明主键-->
+    <insert id="insBlog" parameterType="blog" useGeneratedKeys="true" keyProperty="id">
+        insert into t_blog values(null,#{title},#{summary},now(),0,0,#{content},now(),#{blogType.id},#{keyWord},#{blogger.id})
+    </insert>
+
+    <!--更新博客数据-->
+    <update id="updateBlog" parameterType="blog">
+        update t_blog
+        <set>
+            modifyDate=now(),
+            <if test="title!=null and title!=''">
+                title=#{title},
+            </if>
+            <if test="summary!=null and summary!=''">
+                summary=#{summary},
+            </if>
+            <if test="clickHit!=null">
+                clickHit=#{clickHit},
+            </if>
+            <if test="replyHit!=null">
+                replyHit=#{replyHit},
+            </if>
+            <if test="content!=null and content!=''">
+                content=#{content},
+            </if>
+            <if test="keyWord!=null and keyWord!=''">
+                keyWord=#{keyWord},
+            </if>
+            <if test="blogType.id!=null">
+                typeId=#{blogType.id},
+            </if>
+            <if test="blogger.id!=null">
+                bloggerId=#{blogger.id},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--批量删除指定主键集合博客数据-->
+    <delete id="delBlogByIds" parameterType="list">
+        delete from t_blog
+        <where>
+            id in
+            <foreach collection="blogIds" item="blogId" open="(" separator="," close=")">
+                #{blogId}
+            </foreach>
+        </where>
+    </delete>
+
+</mapper>

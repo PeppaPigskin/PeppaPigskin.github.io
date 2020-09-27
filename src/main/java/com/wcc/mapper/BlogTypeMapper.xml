@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wcc.mapper.BlogTypeMapper">
+
+
+    <resultMap id="blogTypeResult" type="BlogType">
+        <result column="id" property="id"/>
+        <result column="typeName" property="typeName"/>
+        <result column="orderNo" property="orderNo"/>
+        <result column="blogCount" property="blogCount"/>
+    </resultMap>
+
+    <!--查询所有博客分类信息-->
+    <select id="selAllBlogType" resultMap="blogTypeResult">
+		select t.id,t.typeName,t.orderNo,count(b.id) as blogCount
+		from t_blogType t
+		left join t_blog b on b.typeId = t.id
+		group by t.id
+	</select>
+
+    <!--根据ID查询博客分类信息-->
+    <select id="findById" parameterType="int" resultMap="blogTypeResult">
+        select  * from t_blogType t where t.id=#{id}
+    </select>
+
+    <!--动态多条件查询-->
+    <select id="findBlogTypeList" parameterType="Map" resultMap="blogTypeResult">
+        select * from t_blogType
+        <where>
+            <if test="typeName!=null and typeName!=''">
+                and typeName=#{typeName}
+            </if>
+
+            <if test="typeName!=null and typeName!=''">
+                and oderNo=#{oderNo}
+            </if>
+        </where>
+        order by orderNo
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+
+    </select>
+
+    <!--查询符合条件的记录数-->
+    <select id="getCount" parameterType="Map" resultType="Long">
+        select count(*) from t_blogType
+        <where>
+            <if test="typeName!=null and typeName!=''">
+                and typeName=#{typeName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增博客分类-->
+    <insert id="insBlogType" parameterType="blogType">
+        insert into t_blogType(typeName,orderNo) values (#{typeName},#{orderNo})
+    </insert>
+
+    <!--根据ID删除博客分类-->
+    <delete id="delBlogType" parameterType="int">
+        delete from t_blogType where id=#{id}
+    </delete>
+
+    <!--根据id集合批量删除博客分类-->
+    <delete id="delBlogTypeByIds" parameterType="list">
+        delete from t_blogType
+        <where>
+            id in
+            <foreach collection="blogTypeIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <!--修改博客分类-->
+    <update id="updBlogType" parameterType="blogType">
+        update t_blogType
+        <set>
+            <if test="typeName!=null and typeName!=''">
+                typeName=#{typeName},
+            </if>
+            <if test="orderNo!=null and orderNo!=''">
+                orderNo=#{orderNo},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+		     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		      http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!-- 一、扫描Controller，并将其生命周期纳入spring管理 -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.wcc.controller">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 二、注解驱动，以使得访问路径与方法的匹配可以通过注解配置 -->
+    <mvc:annotation-driven/>
+
+    <!-- 三、放行静态资源，使其可以被访问（如：html\css\js\images） -->
+    <!-- 统一配置形式 -->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!-- 四、配置视图解析器：视图定位 -->
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--解决文件上传问题-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"
+          p:defaultEncoding="utf-8" p:maxUploadSize="10000000"/>
+
+    <!-- 五、配置拦截器 -->
+    <!-- 配置方法一 :所有控制器全拦截 -->
+    <mvc:interceptors>
+        <bean class="com.wcc.interceptor.SensitiveInterceptor"></bean>
+    </mvc:interceptors>
+    <!-- 配置方法二:只拦截特定的控制器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/blogger/login.do"/>
+            <bean class="com.wcc.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+		     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		     http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--spring配置文件-->
+
+    <!--通过注解，将Service的生命周期纳入Spirng管理（将Service层对象的创建交给spring进行管理） -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.wcc.service.impl"/>
+
+
+    <!--加载属性文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" p:url="${druid.url}"
+          p:username="${druid.username}" p:password="${druid.password}"/>
+
+    <!--configLocation:mybatis配置文件-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="typeAliasesPackage" value="com.wcc.pojo"/>
+        <property name="mapperLocations" value="classpath:com/wcc/mapper/*.xml"/>
+    </bean>
+
+
+    <!-- DAO接口所在包，Spring会自动扫描这个包下的类-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:basePackage="com.wcc.mapper" p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+
+    <!--spring的事务管理-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+
+
+    <!--TODO:使用Shiro作为项目安全框架-->
+
+    <!--定义安全管理器(登录 )-->
+    <bean id="myRealm" class="com.wcc.realm.MyRealm"/>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"/>
+    </bean>
+
+    <!--securityManager:Shiro的核心安全接口，这个属性是必须的，要依靠其进行过滤;loginUrl:身份验证失败，跳转到登录页面的配置-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login.jsp"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /login=anon
+                /admin/**=authc
+            </value>
+        </property>
+    </bean>
+
+    <!--保证实现了Shiro内部的lifecycle函数的bean执行-->
+    <bean id="life" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!--开启Shiro注解-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="life"/>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"
+          id="authorizationAttributeSourceAdvisor" p:securityManager-ref="securityManager"/>
+
+    <!--配置事务通知属性-->
+    <tx:advice transaction-manager="dataSourceTransactionManager" id="txAdvice">
+        <!--定义事务的传播属性-->
+        <tx:attributes>
+            <tx:method name="ins*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="new*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="set*" propagation="REQUIRED"/>
+
+            <tx:method name="del*" propagation="REQUIRED"/>
+            <tx:method name="rem*" propagation="REQUIRED"/>
+
+            <tx:method name="upd*" propagation="REQUIRED"/>
+            <tx:method name="mod*" propagation="REQUIRED"/>
+            <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="check*" propagation="REQUIRED"/>
+
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="sel*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="load*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务切面-->
+    <aop:config>
+        <aop:pointcut id="myPointcut" expression="execution(* com
+        .wcc.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut"/>
+    </aop:config>
+
+
+</beans>
