@@ -23,13 +23,27 @@ public class StringUtil {
     }
 
     /**
-     * 进行去前后空格判空
+     * 进行去前后空格判不为空
      *
      * @param str 需要判断的字符串
      * @return
      */
     public static Boolean isNotEmpty(String str) {
         if (str != null && !"".equals(str.trim())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 进行去前后空格判空
+     *
+     * @param str 需要判断的字符串
+     * @return
+     */
+    public static Boolean isEmpty(String str) {
+        if (str == null || "".equals(str.trim())) {
             return true;
         } else {
             return false;

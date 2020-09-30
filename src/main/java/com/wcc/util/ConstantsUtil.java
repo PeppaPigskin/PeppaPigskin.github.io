@@ -134,6 +134,23 @@ public class ConstantsUtil {
          * 博客类型集合名
          */
         public static final String RESOURCE_PARAM_BLOG_TYPE_LIST_NAME = "blogTypeListName";
+
+        /**
+         * 博主
+         */
+        public static final String RESOURCE_PARAM_BLOGGER_NAME = "bloggerAdmin";
+
+        /**
+         * 每个年月对应的博客数集合
+         */
+        public static final String RESOURCE_PARAM_BLOG_COUNT_LIST = "blogCountList";
+
+        /**
+         * 友情链接集合名
+         */
+        public static final String RESOURCE_PARAM_LINK_LIST = "linkList";
+
+
     }
 
 }

@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
+import static com.wcc.util.ConstantsUtil.BloggerTypeEnum.BLOGGER_TYPE_ADMIN;
+
 /**
  * @program: blog
  * @description: 博客账户业务层实现类
@@ -36,5 +40,11 @@ public class BloggerServiceImpl implements BloggerService {
     @Override
     public int updBloggerPassword(Blogger blogger) {
         return bloggerMapper.updBloggerInfo(blogger);
+    }
+
+    @Override
+    public Blogger findBloggerAdmin() {
+        List<Blogger> bloggers = bloggerMapper.findBloggerByType(BLOGGER_TYPE_ADMIN.getValue());
+        return bloggers.get(0);
     }
 }

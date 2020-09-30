@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @program: blog
  * @description: 博客账户数据访问层接口
@@ -38,4 +40,11 @@ public interface BloggerMapper {
      */
     @Transactional
     int updBloggerInfo(Blogger blogger);
+
+    /**
+     * 获取博主信息
+     *
+     * @return
+     */
+    List<Blogger> findBloggerByType(Integer accountType);
 }

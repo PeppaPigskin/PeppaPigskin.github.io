@@ -55,7 +55,7 @@ public class BloggerController {
             /*TODO:设置新的文件名*/
             String fileName = DateUtil.getCurrentDateStr() + "." + imageFile.getOriginalFilename().split("\\.")[1];
             try {
-                imageFile.transferTo(new File(filePath + "static/userImage/" + fileName));
+                imageFile.transferTo(new File(filePath + "static/userIcon/" + fileName));
                 blogger.setImageName(fileName);
             } catch (IOException e) {
                 e.printStackTrace();

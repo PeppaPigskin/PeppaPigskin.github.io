@@ -1,0 +1,249 @@
+/*----------------------------------------自定义css样式----------------------------*/
+body { /*设置背景图片*/
+    background: url("../images/bcimage.jpg");
+}
+
+/*----------------设置内部周边填充------------------*/
+
+.m-padded-mini {
+    padding: 0.2em !important;
+
+}
+
+.m-padded-tiny {
+    padding: 0.3em !important;
+
+}
+
+.m-padded {
+    padding: 0.5em !important;
+
+}
+
+.m-padded-large {
+    padding: 1em !important;
+
+}
+
+.m-padded-big {
+    padding: 2em !important;
+
+}
+
+/*----------------定位设置------------------*/
+.m-fixed {
+    position: fixed !important;
+    z-index: 10 !important;
+}
+
+.m-right-bottom {
+    bottom: 5em !important;
+    right: 2em !important;
+}
+
+/*----------------设置外部填充---------------------*/
+.m-margin-tb-tiny {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+
+.m-margin-top-small {
+    margin-top: 0.5em !important;
+}
+
+.m-margin-top {
+    margin-top: 1em !important;
+}
+
+.m-margin-top-lager {
+    margin-top: 2em !important;
+}
+
+.m-margin-bottom-small {
+    margin-bottom: 0.5em !important;
+}
+
+.m-margin-right-small {
+    margin-right: 0.5em !important;
+}
+
+.m-margin-left-small {
+    margin-left: 0.5em !important;
+}
+
+
+/*---------------------padding----------*/
+
+.m-padded-tb-mini { /*设置0.2em上下内部填充宽度*/
+    /*1em=14px*/
+    /*!important提高自定义样式级别*/
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+
+.m-padded-tb-tiny { /*设置0.3em上下内部填充宽度*/
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+}
+
+
+.m-padded-tb-small { /*设置0.5em上下内部填充宽度*/
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+}
+
+.m-padded-tb { /*设置1.0em上下内部填充宽度*/
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+
+.m-padded-tb-large { /*设置2.0em上下内部填充宽度*/
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+
+.m-padded-tb-big { /*设置3.0em上下内部填充宽度*/
+    padding-top: 3em !important;
+    padding-bottom: 3em !important;
+}
+
+.m-padded-tb-huge { /*设置4.0em上下内部填充宽度*/
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+
+.m-padded-tb-massive { /*设置5.0em上下内部填充宽度*/
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
+
+.m-padded-lr-big { /*设置3.0em左右内部填充宽度*/
+    padding-left: 3em !important;
+    padding-right: 3em !important;
+}
+
+.m-padded-lr-responsive { /*设置4.0em左右内部填充宽度*/
+    padding-left: 4em !important;
+    padding-right: 4em !important;
+}
+
+/*------------------设置文本格式---------------*/
+
+.m-text {
+    /*设置字体粗细*/
+    font-weight: 300 !important;
+    /*设置字间距*/
+    letter-spacing: 1px !important;
+    /*设置字间距*/
+    letter-spacing: 1px !important;
+}
+
+.m-text-thin {
+    /*设置字体粗细*/
+    font-weight: 300 !important;
+}
+
+.m-text-spaced {
+    /*设置字间距*/
+    letter-spacing: 1px !important;
+}
+
+.m-text-lined {
+    /*设置行间距*/
+    line-height: 1.8 !important;
+}
+
+.m-opacity-mini {
+    /*设置透明度*/
+    opacity: 0.8 !important;
+}
+
+.m-opacity-tiny {
+    /*设置透明度*/
+    opacity: 0.6 !important;
+}
+
+.m-text-pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    /*white-space:-pre-wrap;*/
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+/*------------------设置文本格式结束---------------*/
+
+/*----------------设置显示方式---------------*/
+/*设置为内联显示块*/
+.m-inline-block {
+    display: inline-block !important;
+}
+
+/*----------------display结束---------------*/
+
+
+/*------设置阴影------------*/
+.m-shadow-small {
+    /* 适配特定浏览器*/
+    -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/*-------------容器宽度--------*/
+/*用于主页面的文章列表宽度*/
+.m-container {
+    max-width: 72em !important;
+    margin: auto !important; /*水平方向居中*/
+}
+
+/*用于文章详情使用的宽度*/
+.m-container-small {
+    max-width: 60em !important;
+    margin: auto !important; /*水平方向居中*/
+}
+
+
+/*---------color------*/
+.m-color-black {
+    color: #333333;
+}
+
+
+/*---------------------position---------------*/
+.m-position-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.m-mobile-show { /*非手机端隐藏按钮*/
+    display: none !important;
+}
+
+
+/* 媒体查询，手机端-当最大宽度小于768时*/
+@media screen and (max-width: 768px) {
+    .m-mobile-hide {
+        display: none !important;
+    }
+
+    .m-mobile-show {
+        display: block !important;
+    }
+
+    .m-padded-lr-responsive {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .m-mobile-wide {
+        width: 100% !important;
+    }
+
+    .m-mobile-lr-clear {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+

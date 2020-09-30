@@ -67,6 +67,6 @@
     </servlet-mapping>
     <!--设置服务启动后初始进入的页面-->
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>goto.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

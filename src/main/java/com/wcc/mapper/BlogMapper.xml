@@ -40,10 +40,10 @@
                 and bloggerId = #{bloggerId}
             </if>
             <if test="releaseDateStr!=null and releaseDateStr!=''">
-                and date_format(releaseDate,'%Y年%m月') = releaseDateStr
+                and date_format(releaseDate,'%Y年%m月') = #{releaseDateStr}
             </if>
             <if test="modifyDateStr!=null and modifyDateStr!=''">
-                and date_format(modifyDate,'%Y年%m月') = modifyDate
+                and date_format(releaseDate,'%Y年%m月') = #{modifyDate}
             </if>
         </where>
         order by releaseDate desc
@@ -66,10 +66,10 @@
                 and bloggerId = #{bloggerId}
             </if>
             <if test="releaseDateStr!=null and releaseDateStr!=''">
-                and date_format(releaseDate,'%Y年%m月') = releaseDateStr
+                and date_format(releaseDate,'%Y年%m月') = #{releaseDateStr}
             </if>
             <if test="modifyDateStr!=null and modifyDateStr!=''">
-                and date_format(modifyDate,'%Y年%m月') = modifyDate
+                and date_format(modifyDate,'%Y年%m月') = #{modifyDate}
             </if>
         </where>
     </select>

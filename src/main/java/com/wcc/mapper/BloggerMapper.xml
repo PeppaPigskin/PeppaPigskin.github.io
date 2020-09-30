@@ -26,6 +26,11 @@
         select  * from  t_blogger where id=#{id}
     </select>
 
+    <!--根据博客账户类型获取博客账户数据-->
+    <select id="findBloggerByType" parameterType="int" resultMap="bloggerResult">
+        select  * from  t_blogger where accountType=#{accountType}
+    </select>
+
     <!--更新博客账户信息-->
     <update id="updBloggerInfo" parameterType="blogger">
         update t_blogger

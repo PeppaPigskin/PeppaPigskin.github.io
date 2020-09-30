@@ -41,7 +41,7 @@
 
     <!--查询所有友情链接-->
     <select id="getAllLink" resultMap="linkResult">
-        select * from t_link
+        select * from t_link order by orderNo desc
     </select>
 
     <!--根据主键查询一条友情链接-->

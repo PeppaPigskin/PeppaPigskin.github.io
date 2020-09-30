@@ -197,10 +197,18 @@ public class Blog implements Serializable {
     }
 
     public Blogger getBlogger() {
+        /*将密码信息置空，防止造成不安全隐患*/
+        if (blogger != null) {
+            blogger.setPassword(null);
+        }
         return blogger;
     }
 
     public void setBlogger(Blogger blogger) {
+        /*将密码信息置空，防止造成不安全隐患*/
+        if (blogger != null) {
+            blogger.setPassword(null);
+        }
         this.blogger = blogger;
     }
 

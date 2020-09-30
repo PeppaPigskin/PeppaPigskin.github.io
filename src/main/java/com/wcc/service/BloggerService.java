@@ -37,4 +37,11 @@ public interface BloggerService {
      */
     int updBloggerPassword(Blogger blogger);
 
+    /**
+     * 获得博主信息
+     *
+     * @return
+     */
+    Blogger findBloggerAdmin();
+
 }

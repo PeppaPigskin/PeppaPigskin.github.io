@@ -172,7 +172,7 @@
                     <td>
                         <input type="number" min="1" id="orderNo" name="orderNo" class="easyui-validatebox"
                                style="width: 60px" value="0"
-                               required="true"/>(序号作为显示顺序：从小到大)
+                               required="true"/>(序号作为显示顺序：从大到小)
                     </td>
                 </tr>
             </table>
