@@ -48,7 +48,8 @@
                                          alt=""
                                          class="ui avatar image">
                                     <div class="content">
-                                        <a href="#" class="header">${blog.blogger.nickName}</a>
+                                        <a href="${pageContext.request.contextPath}/about.do"
+                                           class="header">${blog.blogger.nickName}</a>
                                     </div>
                                 </div>
 
@@ -65,8 +66,8 @@
                             </div>
                         </div>
                         <div class=" right aligned five wide column">
-                            <a href="#" class="ui teal basic label m-padded-tiny m-text-thin"
-                               target="_blank">${blog.blogType.typeName}</a>
+                            <a href="${pageContext.request.contextPath}/types.do"
+                               class="ui teal basic label m-padded-tiny m-text-thin">${blog.blogType.typeName}</a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +87,7 @@
 <!--设置底部放置分页的按钮-->
 <div class="ui bottom attached segment">
     <div class="ui middle aligned three column grid">
-       ${pageCode}
+        ${pageCode}
     </div>
 
 </div>

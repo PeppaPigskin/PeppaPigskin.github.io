@@ -2,6 +2,7 @@ package com.wcc.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: blog
@@ -35,6 +36,11 @@ public class Blog implements Serializable {
      * 发表时间
      */
     private Date releaseDate;
+
+    /**
+     * 对应发表年份的所有博客列表
+     */
+    private List<Blog> releaseDateBlogList;
 
     /**
      * 发表时间(字符串格式)
@@ -218,6 +224,14 @@ public class Blog implements Serializable {
 
     public void setBlogCount(Integer blogCount) {
         this.blogCount = blogCount;
+    }
+
+    public List<Blog> getReleaseDateBlogList() {
+        return releaseDateBlogList;
+    }
+
+    public void setReleaseDateBlogList(List<Blog> releaseDateBlogList) {
+        this.releaseDateBlogList = releaseDateBlogList;
     }
 
     @Override

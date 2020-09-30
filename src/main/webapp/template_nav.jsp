@@ -15,10 +15,12 @@
         <!--stackable:可堆叠-->
         <div class="ui inverted secondary stackable menu">
             <h2 class="ui teal header item"><a href="${pageContext.request.contextPath}/index.do">MyBlog</a></h2>
-            <a href="${pageContext.request.contextPath}/index.do" target="_self" class="menu-item item m-mobile-hide">
+            <a id="indexMenu" href="${pageContext.request.contextPath}/index.do" target="_self"
+               class="menu-item item m-mobile-hide">
                 <i class="home icon"></i>首页
             </a>
-            <a href="${pageContext.request.contextPath}/types.do" target="_self" class="menu-item item m-mobile-hide">
+            <a id="typesMenu" href="${pageContext.request.contextPath}/types.do" target="_self"
+               class="menu-item item m-mobile-hide">
                 <i class="idea icon"></i>分类
             </a>
             <%--
@@ -26,10 +28,12 @@
                 <i class="tags icon"></i>标签
             </a>
             --%>
-            <a href="${pageContext.request.contextPath}/archives.do" target="_self" class="menu-item item m-mobile-hide">
+            <a id="archivesMenu" href="${pageContext.request.contextPath}/archives.do" target="_self"
+               class="menu-item item m-mobile-hide">
                 <i class="clone icon"></i>归档
             </a>
-            <a href="${pageContext.request.contextPath}/about.do" target="_self" class="menu-item item m-mobile-hide">
+            <a id="aboutMenu" href="${pageContext.request.contextPath}/about.do" target="_self"
+               class="menu-item item m-mobile-hide">
                 <i class="info icon"></i>关于我
             </a>
             <%--

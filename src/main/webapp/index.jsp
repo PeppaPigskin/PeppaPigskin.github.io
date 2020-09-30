@@ -5,7 +5,7 @@
   Time: 11:30
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
@@ -42,6 +42,11 @@
     <script src="${pageContext.request.contextPath}/static/lib/qrcode/qrcode.js"></script>
     <!--引入字体高亮的js-->
     <script src="${pageContext.request.contextPath}/static/lib/prism/prism.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#indexMenu").addClass("active");
+        });
+    </script>
 </head>
 <body>
 <jsp:include page="template_nav.jsp"></jsp:include>
@@ -67,18 +72,21 @@
                                 <i class="tags icon"></i>按博客分类
                             </div>
                             <div class="column right aligned">
-                                <a href="#" target="_blank">more <i class="icon angle double right"></i></a>
+                                <a href="${pageContext.request.contextPath}/types.do" target="_self">more <i
+                                        class="icon angle double right"></i></a>
                             </div>
                         </div>
                     </div>
                     <!--具体标签-->
                     <div class="ui teal segment">
                         <c:forEach var="blogType" items="${applicationScope.blogTypeListName}">
-                            <a href="${pageContext.request.contextPath}/index.do?typeId=${blogType.id}"
-                               class="ui teal basic left pointing label m-margin-tb-tiny">
-                                    ${blogType.typeName}
-                                <div class="detail">${blogType.blogCount}</div>
-                            </a>
+                            <c:if test="${blogType.blogCount>0}">
+                                <a href="${pageContext.request.contextPath}/index.do?typeId=${blogType.id}"
+                                   class="ui teal basic left pointing label m-margin-tb-tiny">
+                                        ${blogType.typeName}
+                                    <div class="detail">${blogType.blogCount}</div>
+                                </a>
+                            </c:if>
                         </c:forEach>
                     </div>
                 </div>
@@ -92,7 +100,8 @@
                                 <i class="calendar icon"></i>按博客日期
                             </div>
                             <div class="column right aligned">
-                                <a href="#" target="_blank">more <i class="icon angle double right"></i></a>
+                                <a href="${pageContext.request.contextPath}/archives.do" target="_self">more <i
+                                        class="icon angle double right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -101,11 +110,13 @@
                         <!--fluid:设置填充外层容器-->
                         <div class="ui fluid vertical menu">
                             <c:forEach items="${applicationScope.blogCountList}" var="blog">
-                                <a href="${pageContext.request.contextPath}/index.do?releaseDateStr=${blog.releaseDateStr}"
-                                   class="item">
-                                        ${blog.releaseDateStr}
-                                    <div class="ui teal basic left pointing label">${blog.blogCount}</div>
-                                </a>
+                                <c:if test="${blog.blogCount>0}">
+                                    <a href="${pageContext.request.contextPath}/index.do?releaseDateStr=${blog.releaseDateStr}"
+                                       class="item">
+                                            ${blog.releaseDateStr}
+                                        <div class="ui teal basic left pointing label">${blog.blogCount}</div>
+                                    </a>
+                                </c:if>
                             </c:forEach>
                         </div>
                     </div>

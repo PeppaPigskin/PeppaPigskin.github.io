@@ -21,7 +21,7 @@ public class PageUtil {
      */
     public static String genPagination(String targetUrl, long totalNum, int currentPage, int pageSize, String param) {
         if (totalNum == 0) {
-            return "<div style='text-align: center'>未查询到数据</div>";
+            return "";
         }
         long pageCount = 1;
         if (totalNum % pageSize == 0) {
