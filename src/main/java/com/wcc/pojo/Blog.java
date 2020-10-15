@@ -38,11 +38,6 @@ public class Blog implements Serializable {
     private Date releaseDate;
 
     /**
-     * 对应发表年份的所有博客列表
-     */
-    private List<Blog> releaseDateBlogList;
-
-    /**
      * 发表时间(字符串格式)
      */
     private String releaseDateStr;
@@ -226,13 +221,6 @@ public class Blog implements Serializable {
         this.blogCount = blogCount;
     }
 
-    public List<Blog> getReleaseDateBlogList() {
-        return releaseDateBlogList;
-    }
-
-    public void setReleaseDateBlogList(List<Blog> releaseDateBlogList) {
-        this.releaseDateBlogList = releaseDateBlogList;
-    }
 
     @Override
     public String toString() {

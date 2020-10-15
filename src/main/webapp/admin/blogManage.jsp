@@ -46,7 +46,7 @@
                 return;
             }
             var selBlog = selBlogs[0];
-            /*调用父窗体中的方法*/
+            /*TODO:调用父窗体中的方法*/
             window.parent.openModifyBlog("${pageContext.request.contextPath}/admin/modifyBlog.jsp?blogId=" + selBlog.id);
         }
 
@@ -75,6 +75,11 @@
                 }
             });
         }
+
+        /*点击标题，弹出用户预览界面*/
+        function showBlogInfo(val, row) {
+            return "<a target='_blank' href='${pageContext.request.contextPath}/blog/" + row.id + ".html'>" + val + "</a>"
+        }
     </script>
     <style type="text/css">
 
@@ -88,7 +93,7 @@
         <tr>
             <th field="cb" checkbox="true" align="center"></th>
             <th field="id" width="50" align="center">编号</th>
-            <th field="title" width="250" align="center">标题</th>
+            <th field="title" width="250" align="center" formatter="javascript:showBlogInfo">标题</th>
             <th field="summary" width="400" align="center">摘要</th>
             <th field="blogType" width="100" align="center" formatter="javascript:formatBlogType">博客类型</th>
             <th field="blogger" width="100" align="center" formatter="javascript:formatBlogger">所属博主</th>

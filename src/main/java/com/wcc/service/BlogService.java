@@ -69,4 +69,36 @@ public interface BlogService {
      * @return 操作结果
      */
     int delBlogByIds(List<Integer> blogIds);
+
+    /**
+     * 获取指定年月且满足指定条件所包含的博客数据
+     *
+     * @param map 条件
+     * @return 博客集合
+     */
+    Map<String, List<Blog>> getBlogGroupByReleaseDate(Map map);
+
+    /**
+     * 根据当前博客主键获取其上一篇博客
+     *
+     * @param id 当前博客主键
+     * @return 当前博客的上一篇博客
+     */
+    Blog selLastBLog(Integer id);
+
+    /**
+     * 根据当前博客主键查询下一篇博客
+     *
+     * @param id 当前博客主键
+     * @return 当前博客的下一篇博客
+     */
+    Blog selNextBlog(int id);
+
+    /**
+     * 获取最新博客列表（最近发布的三条）
+     *
+     * @return 博客对象集合
+     */
+    List<Blog> findNewestBlogList();
+
 }

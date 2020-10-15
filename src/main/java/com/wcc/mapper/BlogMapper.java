@@ -73,4 +73,20 @@ public interface BlogMapper {
      */
     @Transactional
     int delBlogByIds(@Param("blogIds") List<Integer> blogIds);
+
+    /**
+     * 根据当前博客主键获取其上一篇博客
+     *
+     * @param id 当前博客主键
+     * @return 当前博客的上一篇博客
+     */
+    Blog selLastBLog(@Param("id") Integer id);
+
+    /**
+     * 根据当前博客主键查询下一篇博客
+     *
+     * @param id 当前博客主键
+     * @return 当前博客的下一篇博客
+     */
+    Blog selNextBlog(@Param("id") int id);
 }

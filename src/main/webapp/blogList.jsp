@@ -30,9 +30,11 @@
             <!--mobile reversed:顺序调换-->
             <div class="ui stackable mobile reversed grid">
                 <!--设置博文-->
-                <div class="ui eleven wide column">
+                <div class="ui sixteen wide column">
                     <!--设置博文标题-->
-                    <h3 class="ui header">${blog.title}</h3>
+                    <h3 class="ui header">
+                        <a href="${pageContext.request.contextPath}/blog/${blog.id}.do" target="_blank">${blog.title}</a>
+                    </h3>
                     <!--设置摘要-->
                     <p class="m-text">
                             ${blog.summary}...
@@ -73,12 +75,12 @@
                 </div>
 
                 <!--设置图片-->
-                <div class="ui five wide column">
+               <%-- <div class="ui five wide column">
                     <!--target="_blank"：设置点击时新打开一个界面-->
-                    <a href="#" target="_blank">
-                        <img src="https://picsum.photos/id/1025/800/400" alt="" class="ui rounded image">
+                    <a href="${pageContext.request.contextPath}/blog/${blog.id}.do" target="_blank">
+                        <img src=${pageContext.request.contextPath}/static/blogImage/${blog.blogImage}" alt="" class="ui rounded image">
                     </a>
-                </div>
+                </div>--%>
             </div>
         </div>
     </c:forEach>

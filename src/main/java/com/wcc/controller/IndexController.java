@@ -58,6 +58,7 @@ public class IndexController {
         }
         long blogSum = blogService.getBlogCount(map);
         String pageCode = PageUtil.genPagination(request.getContextPath() + "/index.html", blogSum, Integer.parseInt(page), 5, param.toString());
+        mav.addObject("mainPage", "blogList.jsp");
         mav.addObject("blogSum", blogSum);
         mav.addObject("pageCode", pageCode);
         mav.addObject("blogList", blogList);

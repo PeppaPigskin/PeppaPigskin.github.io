@@ -1,5 +1,6 @@
 package com.wcc.controller.admin;
 
+import com.wcc.lucene.BlogIndex;
 import com.wcc.pojo.Blog;
 import com.wcc.pojo.PageBean;
 import com.wcc.service.BlogService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +34,8 @@ public class BlogController {
     @Resource
     private BlogService blogService;
 
+    private BlogIndex blogIndex = new BlogIndex();
+
 
     /**
      * 保存一条博客数据
@@ -41,8 +45,10 @@ public class BlogController {
      * @return
      */
     @RequestMapping("/save")
-    public String saveBlog(Blog blog, HttpServletResponse response) {
+    public String saveBlog(Blog blog, HttpServletResponse response) throws Exception {
         int flag = blogService.insBlog(blog);
+        //使用lucene工具类的添加方法
+        blogIndex.addIndex(blog);
         return ResponseUtil.setInsOrDelOrUpdResult(response, flag > 0, null);
 
     }
@@ -104,8 +110,9 @@ public class BlogController {
      * @return
      */
     @RequestMapping("/editBlog")
-    public String editBlog(Blog blog, HttpServletResponse response) {
+    public String editBlog(Blog blog, HttpServletResponse response) throws Exception {
         Integer flag = blogService.updateBlog(blog);
+        blogIndex.updateIndex(blog);
         return ResponseUtil.setInsOrDelOrUpdResult(response, flag > 0, null);
     }
 
@@ -128,6 +135,10 @@ public class BlogController {
         int flag = -1;
         try {
             flag = blogService.delBlogByIds(delIDs);
+            for (int i = 0; i < delIDs.size(); i++) {
+                blogIndex.deleteIndex(delIDs.get(i).toString());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

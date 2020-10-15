@@ -25,7 +25,7 @@ public class PageUtil {
         }
         long pageCount = 1;
         if (totalNum % pageSize == 0) {
-            pageCount = totalNum % pageSize;
+            pageCount = totalNum / pageSize;
         } else {
             pageCount = totalNum / pageSize + 1;
         }

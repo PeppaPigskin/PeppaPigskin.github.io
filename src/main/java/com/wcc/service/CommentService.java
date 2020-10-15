@@ -50,7 +50,7 @@ public interface CommentService {
     int delCommentById(Integer id);
 
     /**
-     * 修改一条博客数据
+     * 修改一条博客评论数据
      *
      * @param comment 修改的评论数据
      * @return 操作结果

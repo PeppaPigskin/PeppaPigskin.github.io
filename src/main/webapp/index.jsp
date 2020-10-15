@@ -43,9 +43,22 @@
     <!--引入字体高亮的js-->
     <script src="${pageContext.request.contextPath}/static/lib/prism/prism.js"></script>
     <script type="text/javascript">
+        //设置当前点击的页签的class为活动状态
         $(function () {
             $("#indexMenu").addClass("active");
         });
+
+        //点击查询按钮时触发
+        function luceneSearch() {
+            var q = document.getElementById("q").value.trim();
+            if (q == null || "" == q) {
+                alert("请输入要查找的关键字");
+                return;
+            }
+            var form = document.getElementById('luceneSearch');
+            document.getElementById('mainPageName').value = 'index';
+            form.submit();
+        }
     </script>
 </head>
 <body>
@@ -58,7 +71,7 @@
         <div class="ui stackable grid">
             <!--左边-设置文章内容占11份-->
             <div class="eleven wide column">
-                <jsp:include page="blogList.jsp"></jsp:include>
+                <jsp:include page="${mainPage}"></jsp:include>
             </div>
             <!--右边-置卡片部分占5份-->
             <div class="five wide column">

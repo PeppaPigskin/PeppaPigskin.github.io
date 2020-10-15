@@ -14,7 +14,7 @@
         <!--    设置导航组件-->
         <!--stackable:可堆叠-->
         <div class="ui inverted secondary stackable menu">
-            <h2 class="ui teal header item"><a href="${pageContext.request.contextPath}/index.do">MyBlog</a></h2>
+            <h2 class="ui teal header item"><a href="${pageContext.request.contextPath}/index.do">个人博客</a></h2>
             <a id="indexMenu" href="${pageContext.request.contextPath}/index.do" target="_self"
                class="menu-item item m-mobile-hide">
                 <i class="home icon"></i>首页
@@ -36,14 +36,15 @@
                class="menu-item item m-mobile-hide">
                 <i class="info icon"></i>关于我
             </a>
-            <%--
-            <div class="right menu-item item m-mobile-hide">
+            <div id="searchBtn" class="right menu-item item m-mobile-hide">
                 <div class="ui icon inverted transparent input">
-                    <input type="text" placeholder="查找...">
-                    <i class="search link icon"></i>
+                    <form id="luceneSearch" action="${pageContext.request.contextPath}/q.do" method="post">
+                        <input id="mainPageName" name="mainPageName" type="hidden">
+                        <input id="q" name="q" type="text" placeholder="查找...">
+                        <i class="search link icon" onclick="javascript:window.parent.luceneSearch()"></i>
+                    </form>
                 </div>
             </div>
-            --%>
         </div>
     </div>
 

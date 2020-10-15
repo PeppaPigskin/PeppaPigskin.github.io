@@ -7,7 +7,7 @@
   Description:前台底部模板页
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!--设置底部部分-->
 <footer class="ui inverted vertical segment m-padded-tb-massive">
@@ -19,9 +19,10 @@
             <div class="two wide column">
                 <div class="ui inverted link list">
                     <div class="item">
-                        <!--                设置微信图片-->
-                        <img src="${pageContext.request.contextPath}/static/images/weChart.png" class="ui rounded image"
-                             alt="" style="width: 100px">
+                        <!--                设置公众号图片-->
+                        <img src="${pageContext.request.contextPath}/static/images/gongzhonghao.png"
+                             class="ui rounded image"
+                             title="关注我的微信公众号" alt="微信公众号" style="width: 100px">
                     </div>
                 </div>
             </div>
@@ -29,17 +30,18 @@
                 <!--                设置竖着的列表-->
                 <h4 class="ui inverted header m-text-spaced m-opacity-mini">最新博客</h4>
                 <div class="ui inverted link list">
-                    <a href="#" class="item m-text-pre">JAVA开发环境搭建</a>
-                    <a href="#" class="item m-text-pre">SpringBoot学习</a>
-                    <a href="#" class="item m-text-pre">idea常用快捷键</a>
+                    <c:forEach items="${applicationScope.newestBlog}" var="newBlog">
+                        <a href="${pageContext.request.contextPath}/blog/${newBlog.id}.do"
+                           class="item m-text-pre">${newBlog.title}</a>
+                    </c:forEach>
                 </div>
             </div>
             <div class="three wide column">
                 <!--                设置竖着的列表-->
                 <h4 class="ui inverted header m-text-spaced m-opacity-mini">联系方式</h4>
                 <div class="ui inverted link list">
-                    <a href="#" class="item m-text-pre">Email:1789484932@qq.com</a>
-                    <a href="#" class="item m-text-pre">QQ:1789484932</a>
+                    <a href="${pageContext.request.contextPath}/about.do" class="item m-text-pre">Email:1789484932@qq.com</a>
+                    <a href="${pageContext.request.contextPath}/about.do" class="item m-text-pre">QQ:1789484932</a>
                 </div>
             </div>
             <div class="eight wide column">
@@ -50,9 +52,9 @@
         </div>
         <!--        divider:代表一个分割线-->
         <div class="ui inverted section divider"></div>
-        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright@2019-<fmt:formatDate value="<%=new Date()%>"
-                                                                                           pattern="yyyy"></fmt:formatDate>
-            Mr.Chen Designed By
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">
+            Copyright@2019-<fmt:formatDate value="<%=new Date()%>" pattern="yyyy"></fmt:formatDate>
+            <a href="${pageContext.request.contextPath}/login.jsp" target="_blank">Designed By</a>
             Mr.Chen</p>
     </div>
 

@@ -4,10 +4,13 @@ import com.wcc.mapper.BlogMapper;
 import com.wcc.mapper.CommentMapper;
 import com.wcc.pojo.Blog;
 import com.wcc.service.BlogService;
+import com.wcc.util.DateUtil;
 import com.wcc.util.StringUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +35,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> findBlogList(Map<String, Object> paramMap) {
-        if (paramMap.containsKey("title") && paramMap.get("title") != null) {
-            paramMap.put("title", StringUtil.formatLike(paramMap.get("title").toString()));
+        if (paramMap != null) {
+            //TODO:转换为模糊查询
+            if (paramMap.containsKey("title") && paramMap.get("title") != null) {
+                paramMap.put("title", StringUtil.formatLike(paramMap.get("title").toString()));
+            }
         }
         return blogMapper.findBlogList(paramMap);
     }
@@ -70,5 +76,38 @@ public class BlogServiceImpl implements BlogService {
          * */
         commentMapper.delCommentByBlogIds(ids);
         return blogMapper.delBlogByIds(ids);
+    }
+
+    @Override
+    public Map<String, List<Blog>> getBlogGroupByReleaseDate(Map map) {
+        List<Blog> blogList = findBlogList(map);
+        Map<String, List<Blog>> blogMap = new HashedMap();
+        for (Blog blog : blogList) {
+            String releaseDateStr = DateUtil.formatDate(blog.getReleaseDate(), "yyyy年MM月");
+            if (StringUtil.isNotEmpty(releaseDateStr))
+                if (blogMap.containsKey(releaseDateStr)) {
+                    blogMap.get(releaseDateStr).add(blog);
+                } else {
+                    List<Blog> blogs = new ArrayList<>();
+                    blogs.add(blog);
+                    blogMap.put(releaseDateStr, blogs);
+                }
+        }
+        return blogMap;
+    }
+
+    @Override
+    public Blog selLastBLog(Integer id) {
+        return blogMapper.selLastBLog(id);
+    }
+
+    @Override
+    public Blog selNextBlog(int id) {
+        return blogMapper.selNextBlog(id);
+    }
+
+    @Override
+    public List<Blog> findNewestBlogList() {
+        return findBlogList(null).subList(0, 3);
     }
 }

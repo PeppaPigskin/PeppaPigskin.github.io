@@ -51,8 +51,11 @@ public class TypesController {
         }
         long blogSum = blogService.getBlogCount(map);
         String pageCode = PageUtil.genPagination(request.getContextPath() + "/types.html", blogSum, Integer.parseInt(page), 10, param.toString());
+        mav.addObject("mainPage", "blogList.jsp");
         mav.addObject("pageCode", pageCode);
         mav.addObject("blogList", blogList);
+        mav.addObject("blogSum", blogSum);
+
         return mav;
 
     }

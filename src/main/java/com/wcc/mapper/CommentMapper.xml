@@ -65,10 +65,10 @@
                 and commentDate=#{commentDate}
             </if>
             <if test="state!=null">
-                and state=#{state,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+                and state=#{state}
             </if>
         </where>
-        order by commentDate,state,id desc
+        order by commentDate desc,state,id
         <if test="start!=null and size!=null">
             limit #{start},#{size}
         </if>
@@ -82,7 +82,7 @@
                 and commentDate=#{commentDate}
             </if>
             <if test="state!=null">
-                and state=#{state,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+                and state=#{state}
             </if>
         </where>
     </select>

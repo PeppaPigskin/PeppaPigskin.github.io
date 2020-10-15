@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
                         c.setState(state);
                         String word = c.getSensitiveWord();
                         /*TODO:因为直接使用Arrays.asList()产生的数组无法add和remove,所以处理一下*/
-                        List<String> oldSensitives = "".equals(word) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(word.split(",")));
+                        List<String> oldSensitives = (word == null || "".equals(word)) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(word.split(",")));
                         String content = c.getContent();
                         if (content != null && !"".equals(content)) {
                             /*TODO:ArrayList集合遍历做移除操作时，需要使用其迭代器，防止出现并发修改操作：java.util.ConcurrentModificationException*/

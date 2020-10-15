@@ -25,7 +25,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/admin/comment")
-public class CommentController {
+public class AdminCommentController {
 
     @Resource
     private CommentService commentService;

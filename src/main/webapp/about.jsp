@@ -45,6 +45,7 @@
     <script type="text/javascript">
         $(function () {
             $("#aboutMenu").addClass("active");
+            $("#searchBtn").hide();
         });
         $('#show_hide_icon').click(function () {
             $('.menu-item').toggleClass('m-mobile-hide');
@@ -69,7 +70,7 @@
             <!--左侧图片区-->
             <div class="eleven wide column">
                 <div class="ui segment">
-                    <img src="https://picsum.photos/id/1025/800/600" alt="" class="ui rounded image">
+                    <img src="${pageContext.request.contextPath}/static/images/timg.gif" width="800" alt="" class="ui rounded image">
                 </div>
             </div>
             <!--右侧说明和标签部分-->
@@ -88,40 +89,41 @@
                     <div class="ui red basic left pointing label m-margin-tb-tiny">思考人生</div>
                     <div class="ui red basic left pointing label m-margin-tb-tiny">编程</div>
                     <div class="ui red basic left pointing label m-margin-tb-tiny">电影</div>
-
+                    <div class="ui red basic left pointing label m-margin-tb-tiny">健身</div>
                 </div>
                 <div class="ui attached segment">
-                    <div class="ui teal basic left pointing label m-margin-tb-tiny">web</div>
-                    <div class="ui teal basic left pointing label m-margin-tb-tiny">spring</div>
-                    <div class="ui teal basic left pointing label m-margin-tb-tiny">mysql</div>
-                    <div class="ui teal basic left pointing label m-margin-tb-tiny">layui</div>
+                    <div class="ui teal basic left pointing label m-margin-tb-tiny">JAVA</div>
+                    <div class="ui teal basic left pointing label m-margin-tb-tiny">SSM</div>
+                    <div class="ui teal basic left pointing label m-margin-tb-tiny">SpringBoot</div>
+                    <div class="ui teal basic left pointing label m-margin-tb-tiny">MySql</div>
+                    <div class="ui teal basic left pointing label m-margin-tb-tiny">JDBC</div>
                     <div class="ui teal basic left pointing label m-margin-tb-tiny">...</div>
                 </div>
                 <div class="ui bottom attached segment">
-                    <a href="#" class="ui github circular icon button">
+                    <a href="#" id="gitHub" class="ui github circular icon button">
                         <i class="github icon"></i>
                     </a>
-                    <a href="#" class="ui weChat circular icon button">
+                    <a href="#" id="weChatGongZh" class="ui weChat circular icon button">
                         <i class="wechat icon"></i>
                     </a>
-                    <a href="#" class="ui qq circular icon button" data-position="bottom center"
+                    <a href="#" id="QQ" class="ui qq circular icon button" data-position="bottom center"
                        data-content="2855736274">
                         <i class="qq icon"></i>
                     </a>
-                    <a href="#" class="ui weibo circular icon button">
+                    <a href="#" id="weiBo" class="ui weibo circular icon button">
                         <i class="weibo icon"></i>
                     </a>
 
-                    <!--微信二维码-->
+                    <!--微信公众号二维码-->
                     <div class="ui weChat-qr flowing popup transition hidden">
-                        <img src="${pageContext.request.contextPath}/static/images/weChart.png" alt="微信联系方式"
+                        <img src="${pageContext.request.contextPath}/static/images/weChart.png" title="关注我的微信公众号" alt="我的微信公众号"
                              class="ui rounded bordered  image"
                              style="width: 100px;margin: 0px">
                     </div>
 
                     <!--QQ二维码-->
                     <div class="ui qq-qr flowing popup transition hidden">
-                        <img src="${pageContext.request.contextPath}/static/images/weChart.png" alt="QQ联系方式"
+                        <img src="${pageContext.request.contextPath}/static/images/qq.png" alt="QQ联系方式"
                              class="ui rounded bordered  image"
                              style="width: 100px;margin: 0px">
                     </div>
@@ -133,4 +135,18 @@
 </div>
 <jsp:include page="template_footer.jsp"></jsp:include>
 </body>
+<script>
+    /*设置赞赏按钮相关触发动作*/
+    $('#weChatGongZh').popup({
+        popup: $('.weChat-qr.popup'),
+        on: 'hover',
+        position: 'bottom center',
+    });
+
+    $('#QQ').popup({
+        popup: $('.qq-qr.popup'),
+        on: 'hover',
+        position: 'bottom center',
+    });
+</script>
 </html>

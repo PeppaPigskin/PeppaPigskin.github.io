@@ -24,7 +24,7 @@
             src="${pageContext.request.contextPath}/static/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js"></script>
 
 
-<%--引入ueditor相关资源--%>
+    <%--引入ueditor相关资源--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.all.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/lang/zh-cn/zh-cn.js"></script>
@@ -36,12 +36,12 @@
     <%--自定义js--%>
     <script type="text/javascript">
         function submitData() {
-            var title = $("#title").val();
             var blogTypeId = $("#blogTypeId").combobox("getValue");
             var content = UE.getEditor('container').getContent();
             var keyWord = $("#keyWord").val();
             var title = $("#title").val();
             var bloggerId = ${sessionScope.get('currentUser').id};
+            var file = $("#imageFile")[0].files;
             if (bloggerId == null || bloggerId == '') {
                 $.messager.alert("系统提示", "用户信息异常！");
                 return;
@@ -59,13 +59,15 @@
                 $.messager.alert("系统提示", "请输入博客内容！");
                 return;
             }
+
+
             $.post(
                 "${pageContext.request.contextPath}/admin/blog/save.do",
                 {
                     'title': title,
                     'blogType.id': blogTypeId,
                     'blogger.id': bloggerId,
-                    /*获取内容的前二百个字作为摘要*/
+                    //获取内容的前二百个字作为摘要
                     'summary': UE.getEditor('container').getContentTxt().substr(0, 200),
                     'content': content,
                     'keyWord': keyWord,
@@ -77,7 +79,7 @@
                         $.messager.alert("系统提示", "保存失败！");
                     }
                 },
-                "json"
+                "json",
             );
 
 

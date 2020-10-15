@@ -150,6 +150,11 @@ public class ConstantsUtil {
          */
         public static final String RESOURCE_PARAM_LINK_LIST = "linkList";
 
+        /**
+         * 最新博客集合名
+         */
+        public static final String RESOURCE_PARAM_NEWEST_BLOG = "newestBlog";
+
 
     }
 

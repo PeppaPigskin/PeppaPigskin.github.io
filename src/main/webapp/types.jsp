@@ -46,6 +46,19 @@
         $(function () {
             $("#typesMenu").addClass("active");
         });
+
+        //点击查询按钮时触发
+        function luceneSearch() {
+            var q = document.getElementById("q").value.trim();
+            if (q == null || "" == q) {
+                alert("请输入要查找的关键字");
+                return;
+            }
+            var form = document.getElementById('luceneSearch');
+            document.getElementById('mainPageName').value = 'types';
+            form.submit();
+        }
+
     </script>
 </head>
 <body>
@@ -74,18 +87,18 @@
         <!--设置分类标签按钮-->
         <div class="ui attached segment m-padded-tb-large">
             <c:forEach items="${applicationScope.blogTypeListName}" var="blogType">
-                <c:if test="${blogType.blogCount>0}">
-                    <div class="ui labeled button m-margin-tb-tiny">
-                        <a href="${pageContext.request.contextPath}/types.do?typeId=${blogType.id}"
-                           class="ui basic teal button">${blogType.typeName}</a>
-                        <div class="ui basic teal left pointing label">${blogType.blogCount}</div>
-                    </div>
-                </c:if>
+                <%--                <c:if test="${blogType.blogCount>0}">--%>
+                <div class="ui labeled button m-margin-tb-tiny">
+                    <a href="${pageContext.request.contextPath}/types.do?typeId=${blogType.id}"
+                       class="ui basic teal button">${blogType.typeName}</a>
+                    <div class="ui basic teal left pointing label">${blogType.blogCount}</div>
+                </div>
+                <%--                </c:if>--%>
             </c:forEach>
         </div>
 
         <!--设置选中分类博客列表-->
-        <div class="ui top attached teal segment">
+        <%--<div class="ui top attached teal segment">
             <c:forEach var="blog" items="${blogList}">
                 <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
                     <!--mobile reversed:顺序调换-->
@@ -93,7 +106,10 @@
                         <!--设置博文-->
                         <div class="ui eleven wide column">
                             <!--设置博文标题-->
-                            <h3 class="ui header">${blog.title}</h3>
+                            <h3 class="ui header">
+                                <a href="${pageContext.request.contextPath}/blog/${blog.id}.do"
+                                   target="_blank">${blog.title}</a>
+                            </h3>
                             <!--设置段落内容-->
                             <p class="m-text">
                                     ${blog.summary}...
@@ -139,21 +155,16 @@
                         <!--设置图片-->
                         <div class="ui five wide column">
                             <!--target="_blank"：设置点击时新打开一个界面-->
-                            <a href="#" target="_blank">
+                            <a href="${pageContext.request.contextPath}/blog/${blog.id}.do" target="_blank">
                                 <img src="https://picsum.photos/id/1025/800/400" alt="" class="ui rounded image">
                             </a>
                         </div>
                     </div>
                 </div>
             </c:forEach>
-        </div>
+        </div>--%>
+        <jsp:include page="${mainPage}"></jsp:include>
 
-        <!--设置底部放置分页的按钮-->
-        <div class="ui bottom attached segment">
-            <div class="ui middle aligned three column grid">
-                ${pageCode}
-            </div>
-        </div>
     </div>
 </div>
 

@@ -45,6 +45,7 @@
     <script type="text/javascript">
         $(function () {
             $("#archivesMenu").addClass("active");
+            $("#searchBtn").hide();
         });
     </script>
 </head>
@@ -64,48 +65,34 @@
                 </div>
                 <div class="column right aligned">
                     <!--h元素为block元素，会换行，使用自定义样式进行转换-->
-                    共<h2 class="ui orange header m-inline-block m-text-thin">256</h2>篇博文
+                    共<h2 class="ui orange header m-inline-block m-text-thin">${blogSum}</h2>篇文章
                 </div>
             </div>
         </div>
 
-        <!--按照年份归档-->
-        <h3 class="ui header center aligned">2020</h3>
-        <div class="ui fluid vertical menu">
-            <a href="#" target="_blank" class="item">
-                <span>
-                    <i class="teal circle icon"></i>如何赢得富婆芳心?
-                    <div class="ui teal basic left pointing label m-padded-mini m-text-thin">7月15日</div>
-                </span>
-                <div class="ui yellow basic left pointing label m-padded-mini">转载</div>
-            </a>
-        </div>
-        <h3 class="ui header center aligned">2019</h3>
-        <div class="ui fluid vertical menu">
-            <a href="#" target="_blank" class="item">
-                <span>
-                    <i class="teal circle icon"></i>JAVA从入门到放弃
-                    <div class="ui teal basic left pointing label m-padded-mini m-text-thin">12月15日</div>
-                </span>
-                <div class="ui yellow basic left pointing label m-padded-mini">转载</div>
-            </a>
-            <a href="#" target="_blank" class="item">
-                <span>
-                    <i class="teal circle icon"></i>C#设计模式
-                    <div class="ui teal basic left pointing label m-padded-mini m-text-thin">9月15日</div>
-                </span>
-                <div class="ui yellow basic left pointing label m-padded-mini">原创</div>
-            </a>
-        </div>
-        <h3 class="ui header center aligned">2018</h3>
-        <div class="ui fluid vertical menu">
-            <a href="#" target="_blank" class="item">
-                <span>
-                    <i class="teal circle icon"></i>如何赢得富婆芳心?
-                    <div class="ui teal basic left pointing label m-padded-mini m-text-thin">6月6日</div>
-                </span>
-                <div class="ui yellow basic left pointing label m-padded-mini">转载</div>
-            </a>
+        <!--按照年月归档-->
+        <c:forEach items="${blogNewMap}" var="kv">
+            <h3 class="ui header center aligned">${kv.key}</h3>
+            <div class="ui fluid vertical menu">
+                <c:forEach items="${kv.value}" var="blog">
+                    <a href="${pageContext.request.contextPath}/blog/${blog.id}.do" target="_blank" class="item">
+                        <span>
+                            <i class="teal circle icon"></i>${blog.title}
+                            <div class="ui teal basic left pointing label m-padded-mini m-text-thin">
+                                <fmt:formatDate value="${blog.releaseDate}" pattern="dd日"></fmt:formatDate>
+                            </div>
+                        </span>
+                        <div class="ui yellow basic left pointing label m-padded-mini">${blog.blogType.typeName}</div>
+                    </a>
+                </c:forEach>
+            </div>
+        </c:forEach>
+
+        <!--设置底部放置分页的按钮-->
+        <div class="ui bottom attached segment">
+            <div class="ui middle aligned three column grid">
+                ${pageCode}
+            </div>
         </div>
     </div>
 </div>

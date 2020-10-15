@@ -67,6 +67,9 @@ public class SystemManagerController {
             //友情链接
             List<Link> allLink = linkService.getAllLink();
             application.setAttribute(Const.RESOURCE_PARAM_LINK_LIST, allLink);
+            //获取最新的三篇博客
+            List<Blog> newBlog = blogService.findNewestBlogList();
+            application.setAttribute(Const.RESOURCE_PARAM_NEWEST_BLOG, newBlog);
             return ResponseUtil.setInsOrDelOrUpdResult(response, true, null);
         } catch (Exception e) {
             return ResponseUtil.setInsOrDelOrUpdResult(response, false, null);

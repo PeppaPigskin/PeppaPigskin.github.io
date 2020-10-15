@@ -22,4 +22,20 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
         return format.format(date);
     }
+
+    /**
+     * 获取相应日期的指定格式
+     *
+     * @param date   日期对象
+     * @param format 指定格式
+     * @return
+     */
+    public static String formatDate(Date date, String format) {
+        String result = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        if (date != null) {
+            result = simpleDateFormat.format(date);
+        }
+        return result;
+    }
 }

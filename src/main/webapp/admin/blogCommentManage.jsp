@@ -31,7 +31,8 @@
          * 返回改行数据博客标题名（编号）
          */
         function formatBlog(val, row) {
-            return val.title + "(" + val.id + ")";
+            var showTitle = val.title + "(" + val.id + ")";
+            return "<a target='_blank' href='${pageContext.request.contextPath}/blog/" + val.id + ".html'>" + showTitle + "</a>"
         }
 
         /*删除选择的评论*/
@@ -46,14 +47,18 @@
                 comIds.push(selComs[i].id);
             }
             var idStr = comIds.join(",");
-            $.post("${pageContext.request.contextPath}/admin/comment/delComment.do", {idStr: idStr}, function (result) {
-                if (result.success) {
-                    $.messager.alert("系统提示", "删除成功！")
-                } else {
-                    $.messager.alert("系统提示", "删除失败！")
+            $.messager.confirm("系统提示", "是否确认删除选择的<font color='red'>" + comIds.length + "</font>条数据？", function (r) {
+                if (r) {
+                    $.post("${pageContext.request.contextPath}/admin/comment/delComment.do", {idStr: idStr}, function (result) {
+                        if (result.success) {
+                            $.messager.alert("系统提示", "删除成功！")
+                        } else {
+                            $.messager.alert("系统提示", "删除失败！")
+                        }
+                        $("#dg").datagrid("reload");
+                    }, "json");
                 }
-                $("#dg").datagrid("reload");
-            }, "json");
+            });
 
         }
 

@@ -14,6 +14,7 @@
         <result column="content" property="content"/>
         <result column="modifyDate" property="modifyDate"/>
         <result column="keyWord" property="keyWord"/>
+        <result column="blogImage" property="blogImage"/>
         <association property="blogType" column="typeId" select="com.wcc.mapper.BlogTypeMapper.findById"/>
         <association property="blogger" column="bloggerId" select="com.wcc.mapper.BloggerMapper.findById"/>
     </resultMap>
@@ -127,5 +128,16 @@
             </foreach>
         </where>
     </delete>
+    <!--获取上一篇博客-->
+    <select id="selLastBLog" parameterType="Integer" resultMap="blogResult">
+        /*&lt;小于*/
+        select * from t_blog where id&lt;#{id} order by id desc limit 1
+    </select>
+
+    <!--获取下一篇博客-->
+    <select id="selNextBlog" parameterType="Integer" resultMap="blogResult">
+        /*&gt;大于*/
+        select * from t_blog where id&gt;#{id} order by id limit 1
+    </select>
 
 </mapper>
