@@ -37,7 +37,7 @@ CREATE TABLE `t_blog` (
   KEY `FK_t_blogtype` (`typeId`),
   CONSTRAINT `FK_t_blogger` FOREIGN KEY (`bloggerId`) REFERENCES `t_blogger` (`id`),
   CONSTRAINT `FK_t_blogtype` FOREIGN KEY (`typeId`) REFERENCES `t_blogtype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='博客表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='博客表';
 
 /*Table structure for table `t_blogger` */
 
@@ -64,7 +64,7 @@ CREATE TABLE `t_blogtype` (
   `typeName` varchar(100) DEFAULT NULL COMMENT '类型名称',
   `orderNo` int(11) DEFAULT NULL COMMENT '序号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='博客分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='博客分类表';
 
 /*Table structure for table `t_comment` */
 
@@ -81,7 +81,7 @@ CREATE TABLE `t_comment` (
   PRIMARY KEY (`id`),
   KEY `FK_t_comment` (`blogId`),
   CONSTRAINT `FK_t_comment` FOREIGN KEY (`blogId`) REFERENCES `t_blog` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='博客评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客评论表';
 
 /*Table structure for table `t_link` */
 
@@ -93,7 +93,7 @@ CREATE TABLE `t_link` (
   `linkUrl` varchar(500) DEFAULT NULL COMMENT '网站URL',
   `orderNo` int(11) DEFAULT NULL COMMENT '序号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='友情链接';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='友情链接';
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
