@@ -22,6 +22,7 @@
 }%>
 <%
     out.clear();
+    out=pageContext.pushBody();
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "No-cache");
     response.setDateHeader("Expires", 0);

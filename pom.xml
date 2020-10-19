@@ -284,6 +284,11 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <encoding>UTF-8</encoding>
+                    <!--解决【maven打包时，找不到本地lib目录下的jar包】：根据你把lib放的位置，但需要注意的是，mac平台上，路径分隔符用的"/"，windows下用的分隔符是"\"-->
+                    <compilerArguments>
+                        <extdirs>src/main/webapp/WEB-INF/lib</extdirs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
         </plugins>

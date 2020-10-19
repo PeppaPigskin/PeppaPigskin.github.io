@@ -48,9 +48,16 @@
         </div>
     </div>
 
-    <!--添加图标-->
+    <!--添加图标,用于展示堆叠页签-->
     <a href="#" id="show_hide_icon" class="ui menu toggle black icon button m-position-top-right m-mobile-show">
         <i class="sidebar icon"></i>
     </a>
 </nav>
+<script>
+
+    /*用于空值堆叠项的显示与隐藏属性*/
+    $('.menu.toggle').click(function () {
+        $('.menu-item').toggleClass('m-mobile-hide');
+    });
+</script>
 

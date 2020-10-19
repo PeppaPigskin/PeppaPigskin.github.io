@@ -108,6 +108,10 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> findNewestBlogList() {
-        return findBlogList(null).subList(0, 3);
+        List<Blog> blogList = findBlogList(null);
+        if (blogList != null && blogList.size() >= 3) {
+            return blogList.subList(0, 3);
+        }
+        return blogList;
     }
 }

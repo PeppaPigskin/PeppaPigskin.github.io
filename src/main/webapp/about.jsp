@@ -100,7 +100,7 @@
                     <div class="ui teal basic left pointing label m-margin-tb-tiny">...</div>
                 </div>
                 <div class="ui bottom attached segment">
-                    <a href="#" id="gitHub" class="ui github circular icon button">
+                    <a href="https://github.com/PeppaPigskin/PeppaPigskin.github.io" id="gitHub" target="_blank" title="github源码地址" class="ui github circular icon button">
                         <i class="github icon"></i>
                     </a>
                     <a href="#" id="weChatGongZh" class="ui weChat circular icon button">

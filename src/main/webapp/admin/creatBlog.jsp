@@ -41,7 +41,6 @@
             var keyWord = $("#keyWord").val();
             var title = $("#title").val();
             var bloggerId = ${sessionScope.get('currentUser').id};
-            var file = $("#imageFile")[0].files;
             if (bloggerId == null || bloggerId == '') {
                 $.messager.alert("系统提示", "用户信息异常！");
                 return;

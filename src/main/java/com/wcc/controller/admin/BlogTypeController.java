@@ -97,8 +97,5 @@ public class BlogTypeController {
             map.put("message", "存在已被使用的博客类别，删除失败！");
         }
         return ResponseUtil.setInsOrDelOrUpdResult(response, flag > 0, map);
-
     }
-
-
 }
