@@ -8,7 +8,7 @@
   
   2、开发语言：Java
   
-  3、前端框架：Thymeleaf
+  3、前端框架：Thymeleaf,Semantic UI
   
   4、后台框架：SSM
   
