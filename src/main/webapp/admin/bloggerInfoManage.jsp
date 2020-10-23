@@ -38,7 +38,7 @@
         function submitData() {
             var nickName = $('#nickName').val();
             var sign = $('#sign').val();
-            var profile = UE.getEditor("container").getContent();
+            var profile = $('#profile').val();
             var imageFile = $('#imageFile').val();
             if (nickName == null || nickName == "") {
                 $.messager.alert("系统提示", "请输入昵称信息！");
@@ -50,7 +50,6 @@
             if (profile == null || profile == "") {
                 $.messager.alert("系统提示", "请输入个人简介信息！");
             }
-            $('#profile').val(profile);
             $('#formBloggerInfo').submit();
         }
     </script>
@@ -63,7 +62,6 @@
               enctype="multipart/form-data">
             <input type="hidden" id="id" name="id" value="${sessionScope.currentUser.id}"/>
             <input type="hidden" id="accountType" name="accountType" value="${sessionScope.currentUser.accountType}"/>
-            <input type="hidden" id="profile" name="profile"/>
             <table cellspacing="20px">
                 <tr>
                     <td width="80px">用户名：</td>
@@ -93,10 +91,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>个人简介：</td>
+                    <td>文字简介：</td>
                     <td>
-                        <script id="container" contenteditable="true" name="content" type="text/plain"
-                                style="width: 70%;height: 500px"></script>
+                        <textarea rows="10" id="profile" style="width:800px; resize:none;" name="profile"
+                                  placeholder="个人文字简介..."> ${sessionScope.currentUser.profile}</textarea>
+
                     </td>
                 </tr>
                 <tr>
@@ -110,27 +109,5 @@
         </form>
     </div>
 </div>
-
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    //初始化编辑器
-    var ue = UE.getEditor('container');
-    //添加编辑器加载完成监听事件，在加载完成后进行数据的设置
-    ue.addListener("ready", function () {
-
-        /*通过ajax进行赋值*/
-        UE.ajax.request("${pageContext.request.contextPath}/admin/blogger/find.do", {
-            method: 'post',
-            async: false,
-            data: {},
-            onsuccess: function (result) {
-                result = eval("(" + result.responseText + ")");
-                UE.getEditor("container").setContent(result.profile);
-            },
-        });
-
-        //UE.getEditor("container").setContent($("#profile").val());
-    });
-</script>
 </body>
 </html>

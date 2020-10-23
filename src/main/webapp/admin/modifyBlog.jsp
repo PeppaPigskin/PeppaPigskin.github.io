@@ -11,6 +11,10 @@
 <head>
     <title>修改博客数据</title>
     <meta http-equiv="Content-Type" content="text/html;charst=UTF-8">
+
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.min.js"></script>
+
     <%--引入easyui相关资源--%>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/static/jquery-easyui-1.7.0/themes/default/easyui.css">
@@ -24,9 +28,11 @@
             src="${pageContext.request.contextPath}/static/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js"></script>
 
     <%--引入ueditor相关资源--%>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/ueditor.all.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/editor/css/editormd.css"/>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/editormd.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/editormd.js"></script>
 
     <%--自定义css--%>
     <style type="text/css">
@@ -35,10 +41,39 @@
 
     <%--自定义js--%>
     <script type="text/javascript">
+        var testEditor;
+        $(function () {
+            testEditor = editormd("editormd", {//注意1：这里的就是上面的DIV的id属性值
+                width: "100%",
+                height: 640,
+                syncScrolling: "single",
+                path: "${pageContext.request.contextPath}/static/editor/lib/",//注意2：你的路径
+                saveHTMLToTextarea: true,//注意3：这个配置，方便post提交表单
+
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "${pageContext.request.contextPath}/admin/blog/editorPic.do",//注意你后端的上传图片服务地址
+            });
+            $.post(
+                "${pageContext.request.contextPath}/admin/blog/findById.do",
+                {"id": "${param.blogId}"},
+                function (result) {
+                    /*result = eval("(" + result.responseText + ")");*/
+                    $("#title").val(result.title);
+                    $("#summary").val(result.summary);
+                    $("#content").val(result.content);
+                    $("#keyWord").val(result.keyWord);
+                    $("#blogTypeId").combobox("setValue", result.blogType.id);
+                },
+                "json",
+            );
+        });
+
         function submitData() {
             var title = $("#title").val();
             var blogTypeId = $("#blogTypeId").combobox("getValue");
-            var content = UE.getEditor('container').getContent();
+            var content = $("#content").val();
+            var summary = $("#summary").val();
             var keyWord = $("#keyWord").val();
             var title = $("#title").val();
             var bloggerId = ${sessionScope.get('currentUser').id};
@@ -55,6 +90,10 @@
                 $.messager.alert("系统提示", "请选择博客类别！");
                 return;
             }
+            if (summary == null || summary == '') {
+                $.messager.alert("系统提示", "请输入博客摘要！");
+                return;
+            }
             if (content == null || content == '') {
                 $.messager.alert("系统提示", "请输入博客内容！");
                 return;
@@ -66,8 +105,7 @@
                     'title': title,
                     'blogType.id': blogTypeId,
                     'blogger.id': bloggerId,
-                    /*获取内容的前二百个字作为摘要*/
-                    'summary': UE.getEditor('container').getContentTxt().substr(0, 200),
+                    'summary': summary,
                     'content': content,
                     'keyWord': keyWord,
                 },
@@ -90,7 +128,7 @@
             <tr>
                 <td width="80px">博客标题：</td>
                 <td>
-                    <input type="text" placeholder="请输入博客标题..." id="title" name="title" style="width: 400px">
+                    <input type="text" placeholder="请输入博客标题..." id="title" name="title" style="width: 800px">
                 </td>
             </tr>
             <tr>
@@ -106,10 +144,18 @@
                 </td>
             </tr>
             <tr>
+                <td>博客摘要：</td>
+                <td>
+                    <textarea rows="10" id="summary" style="width:800px; resize:none;" name="summary"
+                              placeholder="博客摘要..."></textarea>
+                </td>
+            </tr>
+            <tr>
                 <td>博客内容：</td>
                 <td>
-                    <script id="container" contenteditable="true" name="content" type="text/plain"
-                            style="width: 70%;height: 500px"></script>
+                    <div id="editormd">
+                        <textarea id="content" style="display:none;" name="content"></textarea>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -129,27 +175,8 @@
         </table>
     </div>
 </div>
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    //初始化编辑器
-    var ue = UE.getEditor('container');
-    //编辑器初始化完毕之后通过ajax异步加载数据
-    ue.addListener("ready", function () {
-        UE.ajax.request("${pageContext.request.contextPath}/admin/blog/findById.do", {
-                method: "post",
-                asyc: false,
-                data: {"id": "${param.blogId}"},
-                onsuccess: function (result) {
-                    result = eval("(" + result.responseText + ")");
-                    $("#title").val(result.title);
-                    UE.getEditor("container").setContent(result.content);
-                    $("#keyWord").val(result.keyWord);
-                    $("#blogTypeId").combobox("setValue", result.blogType.id);
-                }
-            }
-        );
-    })
-</script>
+
+
 </body>
 </html>
 

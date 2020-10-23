@@ -35,53 +35,6 @@
 
     <%--自定义js--%>
     <script type="text/javascript">
-        function submitData() {
-            var title = $("#title").val();
-            var blogTypeId = $("#blogTypeId").combobox("getValue");
-            var content = UE.getEditor('container').getContent();
-            var keyWord = $("#keyWord").val();
-            var title = $("#title").val();
-            var bloggerId = ${sessionScope.get('currentUser').id};
-            if (bloggerId == null || bloggerId == '') {
-                $.messager.alert("系统提示", "用户信息异常！");
-                return;
-            }
-
-            if (title == null || title == '') {
-                $.messager.alert("系统提示", "博客标题不能为空！");
-                return;
-            }
-            if (blogTypeId == null || blogTypeId == '') {
-                $.messager.alert("系统提示", "请选择博客类别！");
-                return;
-            }
-            if (content == null || content == '') {
-                $.messager.alert("系统提示", "请输入博客内容！");
-                return;
-            }
-            $.post(
-                "${pageContext.request.contextPath}/admin/blog/save.do",
-                {
-                    'title': title,
-                    'blogType.id': blogTypeId,
-                    'blogger.id': bloggerId,
-                    /*获取内容的前二百个字作为摘要*/
-                    'summary': UE.getEditor('container').getContentTxt().substr(0, 200),
-                    'content': content,
-                    'keyWord': keyWord,
-                },
-                function (result) {
-                    if (result.success) {
-                        $.messager.alert("系统提示", "保存成功！");
-                    } else {
-                        $.messager.alert("系统提示", "保存失败！");
-                    }
-                },
-                "json"
-            );
-
-
-        }
 
         /*修改密码*/
         function modifyPassword() {

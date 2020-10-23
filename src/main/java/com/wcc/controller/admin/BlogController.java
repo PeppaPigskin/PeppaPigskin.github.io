@@ -4,6 +4,7 @@ import com.wcc.lucene.BlogIndex;
 import com.wcc.pojo.Blog;
 import com.wcc.pojo.PageBean;
 import com.wcc.service.BlogService;
+import com.wcc.util.CommonUtils;
 import com.wcc.util.DateJsonValueProcessor;
 import com.wcc.util.ResponseUtil;
 import net.sf.json.JSONArray;
@@ -12,15 +13,15 @@ import net.sf.json.JsonConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
  * @program: blog
@@ -143,5 +144,40 @@ public class BlogController {
             e.printStackTrace();
         }
         return ResponseUtil.setInsOrDelOrUpdResult(response, flag > 0, null);
+    }
+
+    /**
+     * MarkDown编辑器图片本地上传
+     *
+     * @param file     格式固定（@RequestParam(value = "editormd-image-file", required = true) MultipartFile）不能改变，不然获取不到
+     * @param request  请求流
+     * @param response 相应流
+     * @return
+     */
+    @RequestMapping("/editorPic")
+    @ResponseBody
+    public JSONObject editorPic(@RequestParam(value = "editormd-image-file", required = true) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter wirte = null;
+        JSONObject json = new JSONObject();
+        try {
+            wirte = response.getWriter();
+            //文件存放的路径
+            String path = request.getSession().getServletContext().getRealPath("static/images/upload");
+
+            //TODO:获取服务器地址
+            String serverName = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
+            String url = serverName + request.getContextPath() + "//static//images//upload//" + CommonUtils.upload(request, file, path);
+            json.put("success", 1);
+            json.put("message", "上传成功...");
+            json.put("url", url);
+        } catch (Exception e) {
+        } finally {
+            wirte.print(json);
+            wirte.flush();
+            wirte.close();
+        }
+        return json;
     }
 }

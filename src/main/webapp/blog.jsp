@@ -15,6 +15,10 @@
     <!--进行移动端页面适应设置-->
     <meta name="viewport" content="width=device,initial-scale=1.0">
     <title>${title}</title>
+
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.min.js"></script>
+
     <!--引入前端框架的semantic的css资源-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <!--引入动画样式-尚未起效-->
@@ -43,8 +47,43 @@
     <script src="${pageContext.request.contextPath}/static/lib/qrcode/qrcode.js"></script>
     <!--引入字体高亮的js-->
     <script src="${pageContext.request.contextPath}/static/lib/prism/prism.js"></script>
+
+
+    <%--引入ueditor相关资源--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/editor/css/editormd.css"/>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/editormd.min.js"></script>
+
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/marked.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/prettify.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/raphael.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/underscore.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/sequence-diagram.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/flowchart.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/jquery.flowchart.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/editormd.js"></script>
+
+
     <script type="text/javascript">
         $(function () {
+            $(function () {
+                editormd.markdownToHTML("editorView", {
+                    htmlDecode: "style,script,iframe",  // you can filter tags decode
+                    emoji: true,
+                    taskList: true,
+                    tex: true,  // 默认不解析
+                    flowChart: true,  // 默认不解析
+                    sequenceDiagram: true,  // 默认不解析
+                });
+            });
             $("#archivesMenu").addClass("active");
         });
 
@@ -151,8 +190,9 @@
             <h2 class="ui center aligned header">${blog.title}</h2>
             <br>
             <!--js-toc-content:设置生成目录的文章区-->
-            <div class="js-toc-content m-padded-lr-responsive m-padded-tb-large  typo typo-selection">
-                ${blog.content}
+            <div id="editorView"
+                 class="js-toc-content m-padded-lr-responsive m-padded-tb-large  typo typo-selection">
+                <textarea style="display:none;">${blog.content}</textarea>
             </div>
 
             <!--标签-->
