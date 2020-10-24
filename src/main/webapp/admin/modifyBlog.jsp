@@ -32,17 +32,46 @@
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/editor/editormd.min.js"></script>
     <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/marked.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/prettify.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/raphael.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/underscore.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/sequence-diagram.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/flowchart.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/editor/lib/jquery.flowchart.min.js"></script>
+    <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/editor/editormd.js"></script>
-
-    <%--自定义css--%>
-    <style type="text/css">
-
-    </style>
 
     <%--自定义js--%>
     <script type="text/javascript">
+
         var testEditor;
         $(function () {
+            /*用于保存初始化编辑器的内容*/
+            var markContent;
+
+            /*异步加载数据用于初始化修改的数据*/
+            $.ajax({
+                url: "${pageContext.request.contextPath}/admin/blog/findById.do",
+                async: false,
+                data: {"id": "${param.blogId}"},/*使用传过来的参数id获取初始化数据*/
+                success: function (result) {
+                    $("#title").val(result.title);
+                    $("#summary").val(result.summary);
+                    markContent = result.content;
+                    $("#keyWord").val(result.keyWord);
+                    $("#blogTypeId").combobox("setValue", result.blogType.id);
+                },
+                dataType: "json"
+            });
+
+            /*初始化编辑器*/
             testEditor = editormd("editormd", {//注意1：这里的就是上面的DIV的id属性值
                 width: "100%",
                 height: 640,
@@ -50,25 +79,25 @@
                 path: "${pageContext.request.contextPath}/static/editor/lib/",//注意2：你的路径
                 saveHTMLToTextarea: true,//注意3：这个配置，方便post提交表单
 
+                /*启用表情*/
+                emoji: true,
+
+                /*本地图片上传*/
                 imageUpload: true,
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "${pageContext.request.contextPath}/admin/blog/editorPic.do",//注意你后端的上传图片服务地址
+
+                /*编辑器加载完毕相关处理*/
+                onload: function () {
+                    /*初始化编辑器内容*/
+                    this.setMarkdown(markContent);
+                }
             });
-            $.post(
-                "${pageContext.request.contextPath}/admin/blog/findById.do",
-                {"id": "${param.blogId}"},
-                function (result) {
-                    /*result = eval("(" + result.responseText + ")");*/
-                    $("#title").val(result.title);
-                    $("#summary").val(result.summary);
-                    $("#content").val(result.content);
-                    $("#keyWord").val(result.keyWord);
-                    $("#blogTypeId").combobox("setValue", result.blogType.id);
-                },
-                "json",
-            );
+
+
         });
 
+        /*提交修改的博客数据*/
         function submitData() {
             var title = $("#title").val();
             var blogTypeId = $("#blogTypeId").combobox("getValue");

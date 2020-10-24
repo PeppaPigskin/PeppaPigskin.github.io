@@ -51,6 +51,9 @@
                 path: "${pageContext.request.contextPath}/static/editor/lib/",//注意2：你的路径
                 saveHTMLToTextarea: true,//注意3：这个配置，方便post提交表单
 
+                /*启用表情*/
+                emoji: true,
+
                 imageUpload: true,
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "${pageContext.request.contextPath}/admin/blog/editorPic.do",//注意你后端的上传图片服务地址

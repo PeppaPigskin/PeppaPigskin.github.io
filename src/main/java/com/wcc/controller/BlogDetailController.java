@@ -51,7 +51,8 @@ public class BlogDetailController {
         //根据主键查询博客信息
         Blog blog = blogService.selBlogById(id);
         List<String> blogKeyWords = new ArrayList<>();
-        blogKeyWords.addAll(Arrays.asList(blog.getKeyWord().split(" ")));
+        if (blog.getKeyWord() != null)
+            blogKeyWords.addAll(Arrays.asList(blog.getKeyWord().split(" ")));
 
         Map map = new HashMap();
         map.put("blogId", id);

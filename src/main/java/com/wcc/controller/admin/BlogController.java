@@ -154,7 +154,7 @@ public class BlogController {
      * @param response 相应流
      * @return
      */
-    @RequestMapping("/editorPic")
+    @RequestMapping(value = "/editorPic", produces = "application/json")
     @ResponseBody
     public JSONObject editorPic(@RequestParam(value = "editormd-image-file", required = true) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -168,7 +168,7 @@ public class BlogController {
 
             //TODO:获取服务器地址
             String serverName = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
-            String url = serverName + request.getContextPath() + "//static//images//upload//" + CommonUtils.upload(request, file, path);
+            String url = serverName + "/" + request.getContextPath() + "//static//images//upload//" + CommonUtils.upload(request, file, path);
             json.put("success", 1);
             json.put("message", "上传成功...");
             json.put("url", url);
