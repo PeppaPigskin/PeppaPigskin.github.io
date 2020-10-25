@@ -105,13 +105,12 @@ public class BlogDetailController {
      * @param page    当前页
      * @param request
      * @return
-     * @throws Exception
      */
     @RequestMapping({"/q"})
     public ModelAndView q(@RequestParam(value = "q", required = false) String q,
                           @RequestParam(value = "mainPageName", required = false) String mainPageName,
                           @RequestParam(value = "page", required = false) String page,
-                          HttpServletRequest request) throws Exception {
+                          HttpServletRequest request) {
 
         if (StringUtil.isEmpty(page)) {
             page = "1";
@@ -119,7 +118,12 @@ public class BlogDetailController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("mainPage", "result.jsp");
         //在lucene中查询
-        List<Blog> blogList = blogIndex.searchBlog(q, blogService);
+        List<Blog> blogList = new ArrayList<>();
+        try {
+            blogList = blogIndex.searchBlog(q, blogService);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mav.addObject("q", q);
         mav.addObject("blogList", blogList);
