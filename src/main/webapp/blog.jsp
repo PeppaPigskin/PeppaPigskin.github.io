@@ -145,7 +145,7 @@
                     <img src="https://picsum.photos/id/1025/100/100" alt=""
                          class="ui avatar image">
                     <div class="content">
-                        <a class="header">武晨晨</a>
+                        <a class="header">Mr.Chen</a>
                     </div>
                 </div>
 
