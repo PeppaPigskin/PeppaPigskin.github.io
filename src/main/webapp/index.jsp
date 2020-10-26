@@ -51,7 +51,7 @@
         //点击查询按钮时触发
         function luceneSearch() {
             var q = document.getElementById("q").value.trim();
-            if (q == null || "" == q) {
+            if (null == q || "" == q) {
                 alert("请输入要查找的关键字");
                 return;
             }
@@ -59,6 +59,18 @@
             document.getElementById('mainPageName').value = 'index';
             form.submit();
         }
+
+        //表单提交前验证（包含回车提交）
+        function luceneSearchKeyDown() {
+            var q = document.getElementById("q").value.trim();
+            if (null == q || "" == q) {
+                alert("请输入要查找的关键字");
+                return false;
+            }
+            document.getElementById('mainPageName').value = 'index';
+            return true;
+        }
+
     </script>
 </head>
 <body>

@@ -59,6 +59,17 @@
             form.submit();
         }
 
+        //表单提交前验证（包含回车提交）
+        function luceneSearchKeyDown() {
+            var q = document.getElementById("q").value.trim();
+            if (q == null || "" == q) {
+                alert("请输入要查找的关键字");
+                return false;
+            }
+            document.getElementById('mainPageName').value = 'types';
+            return true;
+        }
+
     </script>
 </head>
 <body>

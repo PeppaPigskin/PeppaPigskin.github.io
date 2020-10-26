@@ -38,7 +38,8 @@
             </a>
             <div id="searchBtn" class="right menu-item item m-mobile-hide">
                 <div class="ui icon inverted transparent input">
-                    <form id="luceneSearch" action="${pageContext.request.contextPath}/q.do" method="post">
+                    <form id="luceneSearch" action="${pageContext.request.contextPath}/q.do"
+                          onsubmit="return window.parent.luceneSearchKeyDown()" method="post">
                         <input id="mainPageName" name="mainPageName" type="hidden">
                         <input id="q" name="q" type="text" placeholder="查找...">
                         <i class="search link icon" onclick="javascript:window.parent.luceneSearch()"></i>
