@@ -67,6 +67,7 @@
                     markContent = result.content;
                     $("#keyWord").val(result.keyWord);
                     $("#blogTypeId").combobox("setValue", result.blogType.id);
+                    $("#status").val(result.status);
                 },
                 dataType: "json"
             });
@@ -98,12 +99,13 @@
         });
 
         /*提交修改的博客数据*/
-        function submitData() {
+        function submitData(val) {
             var title = $("#title").val();
             var blogTypeId = $("#blogTypeId").combobox("getValue");
             var content = $("#content").val();
             var summary = $("#summary").val();
             var keyWord = $("#keyWord").val();
+            var status = $("#status").val();
             var title = $("#title").val();
             var bloggerId = ${sessionScope.get('currentUser').id};
             if (bloggerId == null || bloggerId == '') {
@@ -127,6 +129,10 @@
                 $.messager.alert("系统提示", "请输入博客内容！");
                 return;
             }
+            //进行的是提交修改并发布
+            if (val != null && val == 1) {
+                status = val;
+            }
             $.post(
                 "${pageContext.request.contextPath}/admin/blog/editBlog.do",
                 {
@@ -137,6 +143,7 @@
                     'summary': summary,
                     'content': content,
                     'keyWord': keyWord,
+                    'status': status
                 },
                 function (result) {
                     if (result.success) {
@@ -157,6 +164,7 @@
             <tr>
                 <td width="80px">博客标题：</td>
                 <td>
+                    <input type="hidden" name="status" id="status">
                     <input type="text" placeholder="请输入博客标题..." id="title" name="title" style="width: 800px">
                 </td>
             </tr>
@@ -199,6 +207,8 @@
                 <td>
                     <a href="javascript:submitData()" class="easyui-linkbutton"
                        data-options="iconCls:'icon-save'">保存修改</a>
+                    <a href="javascript:submitData(1)" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-save'">保存修改并发布</a>
                 </td>
             </tr>
         </table>

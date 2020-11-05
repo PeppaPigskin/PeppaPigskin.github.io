@@ -147,6 +147,45 @@ public class BlogController {
     }
 
     /**
+     * 撤销发布/发布博客
+     *
+     * @param ids      操作的博客ID
+     * @param status   操作状态：1-发布；2-撤销发布
+     * @param response
+     * @return
+     */
+    @RequestMapping("/changeStatusById")
+    public String changeStatusById(@RequestParam("ids") String ids, @RequestParam("status") String status, HttpServletResponse response) {
+        String[] idsStr = ids.split(",");
+        List<Integer> opIDs = new ArrayList<>();
+        for (String idStr : idsStr) {
+            opIDs.add(Integer.parseInt(idStr));
+        }
+        int flag = -1;
+        try {
+            for (Integer id : opIDs) {
+                Blog blog = new Blog();
+                blog.setId(id);
+                blog.setStatus(Integer.parseInt(status));
+                flag = blogService.updateBlog(blog);
+                if (flag != 1) {
+                    flag = -1;
+                    break;
+                }
+                if ("1".equals(status))
+                    blogIndex.deleteIndex(id.toString());
+                else if ("2".equals(status)) {
+                    blogIndex.addIndex(blogService.selBlogById(id));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseUtil.setInsOrDelOrUpdResult(response, flag > 0, null);
+    }
+
+    /**
      * MarkDown编辑器图片本地上传
      *
      * @param file     格式固定（@RequestParam(value = "editormd-image-file", required = true) MultipartFile）不能改变，不然获取不到

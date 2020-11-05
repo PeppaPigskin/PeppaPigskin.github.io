@@ -60,7 +60,7 @@
             });
         });
 
-        function submitData() {
+        function submitData(status) {
             var blogTypeId = $("#blogTypeId").combobox("getValue");
             var content = $("#content").val();
             var summary = $("#summary").val();
@@ -97,6 +97,7 @@
                     'summary': summary,
                     'content': content,
                     'keyWord': keyWord,
+                    'status': status,
                 },
                 function (result) {
                     if (result.success) {
@@ -159,7 +160,9 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href="javascript:submitData()" class="easyui-linkbutton"
+                    <a href="javascript:submitData(0)" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-save'">暂存博客</a>
+                    <a href="javascript:submitData(1)" class="easyui-linkbutton"
                        data-options="iconCls:'icon-save'">发布博客</a>
                 </td>
             </tr>

@@ -33,6 +33,17 @@
             return val.nickName;
         }
 
+        /*设置博客状态*/
+        function formatBlogStatus(val, row) {
+            if (val == 0) {
+                return "未发布";
+            } else if (val == 1) {
+                return "已发布";
+            } else if (val == 2) {
+                return "已撤销发布";
+            }
+        }
+
         /*根据标题查询博客数据*/
         function searchBlog() {
             $("#dg").datagrid("load", {"title": $("#s_title").val()});
@@ -80,6 +91,53 @@
         function showBlogInfo(val, row) {
             return "<a target='_blank' href='${pageContext.request.contextPath}/blog/" + row.id + ".html'>" + val + "</a>"
         }
+
+        /*修改发布状态：撤销发布和发布*/
+        function changeStatus(val) {
+            if (val != 1 && val != 2) {
+                $.messager.alert("系统提示", "触发异常操作！");
+                return;
+            }
+            let selBlogs = $("#dg").datagrid("getSelections");
+            if (selBlogs.length <= 0) {
+                if (val == 1)
+                    $.messager.alert("系统提示", "请至少选择一条要发布的数据！");
+                else if (val == 2)
+                    $.messager.alert("系统提示", "请至少选择一条要撤销发布的数据！");
+                return;
+            }
+            for (var i = 0; i < selBlogs.length; i++) {
+                //todo:要校验发布/撤销发布的数据都是可进行操作的
+                if (val == 1) {//进行发布操作（未发布的和已撤销发布的可同时操作）
+                    if (selBlogs[i].status == 1) {
+                        $.messager.alert("系统提示", "选择的数据包含已发布的，请检查后重新操作！");
+                        return;
+                    }
+                } else if (val == 2) {//进行撤销发布操作(只可以操作已发布的)
+                    if (selBlogs[i].status != 1) {
+                        $.messager.alert("系统提示", "只能选择已发布的数据进行撤销发布，请检查后重新操作！");
+                        return;
+                    }
+                }
+            }
+            let selBlogIDs = [];
+            for (let i = 0; i < selBlogs.length; i++) {
+                selBlogIDs.push(selBlogs[i].id);
+            }
+            var ids = selBlogIDs.join(",");
+            $.post("${pageContext.request.contextPath}/admin/blog/changeStatusById.do", {
+                ids: ids,
+                status: val
+            }, function (result) {
+                if (result.success) {
+                    $.messager.alert("系统提示", "操作成功！")
+                } else {
+                    $.messager.alert("系统提示", "操作失败！")
+                }
+                $("#dg").datagrid("reload");
+            }, "json");
+        }
+
     </script>
     <style type="text/css">
 
@@ -102,6 +160,7 @@
             <th field="keyWord" width="200" align="center">关键字</th>
             <th field="clickHit" width="100" align="center">访问量</th>
             <th field="replyHit" width="100" align="center">评论数</th>
+            <th field="status" width="100" align="center" formatter="javascript:formatBlogStatus">博客状态</th>
         </tr>
         </thead>
     </table>
@@ -110,6 +169,10 @@
         <div style="float: left;">
             <a href="javascript:openBlogModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit"
                plain="true">编辑</a>
+            <a href="javascript:changeStatus(1)" class="easyui-linkbutton" iconCls="icon-remove"
+               plain="true">发布</a>
+            <a href="javascript:changeStatus(2)" class="easyui-linkbutton" iconCls="icon-remove"
+               plain="true">撤销发布</a>
             <a href="javascript:deleteBlog()" class="easyui-linkbutton" iconCls="icon-remove"
                plain="true">删除</a>
         </div>

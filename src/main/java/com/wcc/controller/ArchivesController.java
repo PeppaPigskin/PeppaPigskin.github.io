@@ -46,6 +46,7 @@ public class ArchivesController {
         Map<String, Object> map = new HashedMap();
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
+        map.put("status",1);
         Map<String, List<Blog>> blogGroupByReleaseDate = blogService.getBlogGroupByReleaseDate(map);
         //TODO:map按照键排序
         Map<String, List<Blog>> blogNewMap = new LinkedHashMap<>();

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,7 +109,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> findNewestBlogList() {
-        List<Blog> blogList = findBlogList(null);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", 1);
+        List<Blog> blogList = findBlogList(hashMap);
         if (blogList != null && blogList.size() >= 3) {
             return blogList.subList(0, 3);
         }

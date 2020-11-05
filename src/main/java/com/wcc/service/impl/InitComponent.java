@@ -50,7 +50,7 @@ public class InitComponent implements ServletContextListener, ApplicationContext
         LinkService linkService = applicationContext.getBean("linkService", LinkService.class);
         List<Link> allLink = linkService.getAllLink();
         application.setAttribute(Const.RESOURCE_PARAM_LINK_LIST, allLink);
-        //获取最新的三篇博客
+        //获取最新发布的三篇博客
         List<Blog> newBlog = blogService.findNewestBlogList();
         application.setAttribute(Const.RESOURCE_PARAM_NEWEST_BLOG, newBlog);
     }

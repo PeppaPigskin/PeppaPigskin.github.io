@@ -1,0 +1,1 @@
+ALTER TABLE t_blog ADD STATUS INT(2) DEFAULT 1 COMMENT '状态:0-暂存;1-已发布;2-已删除;'

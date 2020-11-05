@@ -16,7 +16,7 @@
     <select id="selAllBlogType" resultMap="blogTypeResult">
 		select t.id,t.typeName,t.orderNo,count(b.id) as blogCount
 		from t_blogType t
-		left join t_blog b on b.typeId = t.id
+		left join t_blog b on b.typeId = t.id and b.status=1
 		group by t.id order by t.orderNo desc
 	</select>
 

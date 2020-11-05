@@ -44,6 +44,7 @@ public class TypesController {
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         map.put("typeId", typeId);
+        map.put("status", 1);
         List<Blog> blogList = blogService.findBlogList(map);
         StringBuffer param = new StringBuffer();
         if (StringUtil.isNotEmpty(typeId)) {

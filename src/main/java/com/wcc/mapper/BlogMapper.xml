@@ -15,6 +15,7 @@
         <result column="modifyDate" property="modifyDate"/>
         <result column="keyWord" property="keyWord"/>
         <result column="blogImage" property="blogImage"/>
+        <result column="status" property="status"/>
         <association property="blogType" column="typeId" select="com.wcc.mapper.BlogTypeMapper.findById"/>
         <association property="blogger" column="bloggerId" select="com.wcc.mapper.BloggerMapper.findById"/>
     </resultMap>
@@ -23,6 +24,7 @@
     <select id="selAllBlogs" resultMap="blogResult">
         select date_format(releaseDate,'%Y年%m月') as releaseDateStr,count(*) as blogCount
         from t_blog
+        where status=1
         group by date_format(releaseDate,'%Y年%m月')
         order by date_format(releaseDate,'%Y年%m月') desc;
     </select>
@@ -45,6 +47,9 @@
             </if>
             <if test="modifyDateStr!=null and modifyDateStr!=''">
                 and date_format(releaseDate,'%Y年%m月') = #{modifyDate}
+            </if>
+            <if test="status!=null and status!=''">
+                and status=#{status}
             </if>
         </where>
         order by releaseDate desc
@@ -72,6 +77,9 @@
             <if test="modifyDateStr!=null and modifyDateStr!=''">
                 and date_format(modifyDate,'%Y年%m月') = #{modifyDate}
             </if>
+            <if test="status!=null and status!=''">
+                and status=#{status}
+            </if>
         </where>
     </select>
 
@@ -82,7 +90,7 @@
 
     <!--新增博客数据：useGeneratedKeys-表示使用数据库的自动规则；keyProperty：表示说明主键-->
     <insert id="insBlog" parameterType="blog" useGeneratedKeys="true" keyProperty="id">
-        insert into t_blog values(null,#{title},#{summary},now(),0,0,#{content},now(),#{blogType.id},#{keyWord},#{blogger.id})
+        insert into t_blog values(null,#{title},#{summary},now(),0,0,#{content},now(),#{blogType.id},#{keyWord},#{blogger.id},#{status})
     </insert>
 
     <!--更新博客数据-->
@@ -108,11 +116,14 @@
             <if test="keyWord!=null and keyWord!=''">
                 keyWord=#{keyWord},
             </if>
-            <if test="blogType.id!=null">
+            <if test="blogType!=null and blogType.id!=null">
                 typeId=#{blogType.id},
             </if>
-            <if test="blogger.id!=null">
+            <if test="blogger!=null and blogger.id!=null">
                 bloggerId=#{blogger.id},
+            </if>
+            <if test="status!=null and status!=''">
+                status=#{status}
             </if>
         </set>
         where id=#{id}
@@ -131,13 +142,13 @@
     <!--获取上一篇博客-->
     <select id="selLastBLog" parameterType="Integer" resultMap="blogResult">
         /*&lt;小于*/
-        select * from t_blog where id&lt;#{id} order by id desc limit 1
+        select * from t_blog where id&lt;#{id} and status=1 order by id desc limit 1
     </select>
 
     <!--获取下一篇博客-->
     <select id="selNextBlog" parameterType="Integer" resultMap="blogResult">
         /*&gt;大于*/
-        select * from t_blog where id&gt;#{id} order by id limit 1
+        select * from t_blog where id&gt;#{id} and status=1 order by id limit 1
     </select>
 
 </mapper>

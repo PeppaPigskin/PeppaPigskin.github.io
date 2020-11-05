@@ -2,7 +2,6 @@ package com.wcc.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @program: blog
@@ -92,6 +91,12 @@ public class Blog implements Serializable {
      * 博客数量
      */
     private Integer blogCount;
+
+    /**
+     * 博客状态【状态:0-暂存;1-已发布;2-已撤销发布;】
+     */
+    private Integer status;
+
 
     public Integer getId() {
         return id;
@@ -221,6 +226,13 @@ public class Blog implements Serializable {
         this.blogCount = blogCount;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -240,6 +252,7 @@ public class Blog implements Serializable {
                 ", keyWord='" + keyWord + '\'' +
                 ", blogger=" + blogger +
                 ", blogCount=" + blogCount +
+                ", status=" + status +
                 '}';
     }
 }

@@ -48,6 +48,7 @@ public class IndexController {
         map.put("size", pageBean.getPageSize());
         map.put("typeId", typeId);
         map.put("releaseDateStr", releaseDateStr);
+        map.put("status", 1);
         List<Blog> blogList = blogService.findBlogList(map);
         StringBuffer param = new StringBuffer();
         if (StringUtil.isNotEmpty(typeId)) {
