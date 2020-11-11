@@ -37,7 +37,7 @@
                     </h3>
                     <!--设置摘要-->
                     <p class="m-text">
-                            ${blog.summary}...
+                            ${blog.summary}
                     </p>
 
                     <div class="ui stackable grid">

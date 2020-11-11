@@ -137,6 +137,8 @@ body { /*设置背景图片*/
     letter-spacing: 1px !important;
     /*设置字间距*/
     letter-spacing: 1px !important;
+    /*设置文本超出部分使用【...替换】*/
+    text-overflow: ellipsis;
 }
 
 .m-text-thin {

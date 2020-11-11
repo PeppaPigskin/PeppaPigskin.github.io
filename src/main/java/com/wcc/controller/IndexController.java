@@ -42,7 +42,7 @@ public class IndexController {
         if (StringUtil.isEmpty(page)) {
             page = "1";
         }
-        PageBean pageBean = new PageBean(Integer.parseInt(page), 5);
+        PageBean pageBean = new PageBean(Integer.parseInt(page), 10);
         Map<String, Object> map = new HashMap<>();
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
@@ -58,7 +58,7 @@ public class IndexController {
             param.append("releaseDateStr=" + releaseDateStr + "&");
         }
         long blogSum = blogService.getBlogCount(map);
-        String pageCode = PageUtil.genPagination(request.getContextPath() + "/index.html", blogSum, Integer.parseInt(page), 5, param.toString());
+        String pageCode = PageUtil.genPagination(request.getContextPath() + "/index.html", blogSum, Integer.parseInt(page), 10, param.toString());
         mav.addObject("mainPage", "blogList.jsp");
         mav.addObject("blogSum", blogSum);
         mav.addObject("pageCode", pageCode);
